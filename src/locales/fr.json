@@ -1,0 +1,154 @@
+{
+  "nav": {
+    "catalog": "Catalogue",
+    "howItWorks": "Comment ça marche",
+    "contact": "Contact",
+    "admin": "Admin",
+    "home": "Accueil"
+  },
+  "home": {
+    "hero": {
+      "title": "Faites avancer votre recherche avec des peptides premium",
+      "subtitle": "Synthèse de peptides sur mesure & conseil en R&D pour l'avenir. Qualité de recherche, expertise, livraison rapide.",
+      "ctaCatalog": "Parcourir le catalogue",
+      "ctaQuote": "Demander un devis"
+    },
+    "marquee": {
+      "text": "🧬 Synthèse de peptides sur mesure en 2-3 semaines  |  🚀 Pureté garantie à 99%+  |  💊 Peptides pour la recherche, la thérapie et la biotechnologie  |  📊 Suivi de projet en temps réel  |  🔬 Conseil expert en R&D  |  ⚡ Livraison mondiale rapide  |  "
+    },
+    "services": {
+      "title": "Nos Services",
+      "subtitle": "Solutions peptidiques complètes pour chercheurs, entreprises biotech et firmes pharmaceutiques",
+      "synthesis": { "title": "Synthèse sur mesure", "desc": "Peptides de précision synthétisés selon vos spécifications exactes avec une pureté de pointe." },
+      "consulting": { "title": "Conseil R&D", "desc": "Expertise en conception, optimisation et application des peptides pour vos projets." },
+      "testing": { "title": "Tests qualité", "desc": "Tests analytiques complets incluant HPLC, spectrométrie de masse et vérification de pureté." },
+      "delivery": { "title": "Livraison rapide", "desc": "Expédition mondiale express avec logistique à froid pour préserver l'intégrité des peptides." }
+    },
+    "caseStudies": { "title": "Projets récents", "subtitle": "Applications concrètes de notre expertise en synthèse peptidique" },
+    "payment": {
+      "title": "Nous acceptons plusieurs méthodes de paiement",
+      "subtitle": "Options de paiement flexibles pour les clients mondiaux",
+      "viewInstructions": "Voir les instructions de paiement"
+    }
+  },
+  "catalog": {
+    "title": "Catalogue de peptides",
+    "subtitle": "Parcourez notre vaste collection de peptides de qualité recherche",
+    "search": "Rechercher des peptides...",
+    "filterCategory": "Toutes les catégories",
+    "sortBy": "Trier par",
+    "sortNewest": "Plus récents",
+    "sortPriceAsc": "Prix : croissant",
+    "sortPriceDesc": "Prix : décroissant",
+    "sortPurity": "Pureté",
+    "noResults": "Aucun peptide trouvé.",
+    "clearFilters": "Effacer les filtres",
+    "viewDetails": "Voir les détails",
+    "requestQuote": "Demander un devis",
+    "purity": "Pureté",
+    "mw": "PM",
+    "priceFrom": "À partir de"
+  },
+  "peptide": {
+    "details": "Détails du produit",
+    "description": "Description",
+    "applications": "Applications",
+    "specifications": "Spécifications",
+    "name": "Nom",
+    "category": "Catégorie",
+    "purity": "Pureté",
+    "molecularWeight": "Poids moléculaire",
+    "sequence": "Séquence d'acides aminés",
+    "price": "Prix (USD)",
+    "requestQuote": "Demander un devis",
+    "relatedPeptides": "Peptides associés",
+    "backToCatalog": "Retour au catalogue",
+    "imageOf": "Image de"
+  },
+  "inquiry": {
+    "title": "Soumettre une demande",
+    "subtitle": "Décrivez votre projet et nous vous répondrons dans les 24 heures",
+    "name": "Nom complet",
+    "namePlaceholder": "Dr. Marie Dupont",
+    "email": "Adresse e-mail",
+    "emailPlaceholder": "marie@universite.fr",
+    "phone": "Numéro de téléphone",
+    "phonePlaceholder": "+33 1 23 45 67 89",
+    "whatsapp": "Numéro WhatsApp",
+    "whatsappPlaceholder": "+33 6 00 00 00 00",
+    "peptide": "Peptide d'intérêt",
+    "details": "Détails du projet",
+    "detailsPlaceholder": "Décrivez votre projet de recherche, la quantité requise, le calendrier et les exigences particulières...",
+    "document": "Joindre un document (optionnel)",
+    "documentHint": "PDF, DOCX jusqu'à 10 Mo",
+    "submit": "Soumettre la demande",
+    "submitting": "Envoi en cours...",
+    "success": "Demande soumise avec succès ! Redirection vers WhatsApp...",
+    "error": "Une erreur est survenue. Veuillez réessayer.",
+    "required": "Champ obligatoire",
+    "invalidEmail": "Adresse e-mail invalide"
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "subtitle": "Vous avez une question ? Nous serions ravis de vous entendre.",
+    "form": {
+      "name": "Votre nom",
+      "email": "Adresse e-mail",
+      "subject": "Sujet",
+      "message": "Message",
+      "send": "Envoyer le message",
+      "sending": "Envoi...",
+      "success": "Message envoyé ! Nous répondrons dans les 24 heures.",
+      "error": "Échec de l'envoi. Veuillez réessayer."
+    },
+    "whatsapp": "Discuter sur WhatsApp",
+    "email": "Nous envoyer un e-mail",
+    "hours": "Heures d'ouverture",
+    "hoursValue": "Lundi – Vendredi, 9h – 18h EST",
+    "response": "Temps de réponse",
+    "responseValue": "Dans les 24 heures"
+  },
+  "howItWorks": {
+    "title": "Comment ça marche",
+    "subtitle": "De la demande à la livraison — notre processus simplifié",
+    "steps": {
+      "1": { "title": "Soumettez votre demande", "desc": "Remplissez notre formulaire avec vos spécifications de peptides, la quantité et les détails du projet." },
+      "2": { "title": "Recevez votre devis", "desc": "Notre équipe examine vos besoins et envoie un devis détaillé dans les 24 heures." },
+      "3": { "title": "Confirmez & synthétisez", "desc": "Après approbation, nos scientifiques commencent la synthèse avec la technologie SPPS." },
+      "4": { "title": "Tests qualité", "desc": "Chaque lot subit une analyse HPLC et spectrométrie de masse pour vérifier la pureté." },
+      "5": { "title": "Livraison", "desc": "Vos peptides sont expédiés avec logistique à froid et documentation complète." }
+    },
+    "features": {
+      "title": "Pourquoi choisir PeptideForge ?",
+      "purity": { "title": "Pureté 99%+", "desc": "Standards de pureté de pointe vérifiés par analyse HPLC." },
+      "speed": { "title": "Délai 2-3 semaines", "desc": "Synthèse rapide sans compromettre la qualité." },
+      "support": { "title": "Support expert", "desc": "Scientifiques de niveau PhD disponibles pour votre projet." },
+      "custom": { "title": "Entièrement personnalisé", "desc": "Toute séquence, toute modification, toute échelle." }
+    }
+  },
+  "payment": {
+    "title": "Instructions de paiement",
+    "subtitle": "Nous acceptons les crypto-monnaies et méthodes de paiement numériques suivantes",
+    "bitcoin": { "title": "Bitcoin (BTC)", "desc": "Envoyez des BTC à notre adresse de portefeuille ci-dessous.", "address": "Adresse du portefeuille Bitcoin", "note": "Confirmations minimum : 2 blocs" },
+    "usdt": { "title": "USDT (Tether)", "desc": "Envoyez des USDT (TRC20 ou ERC20) à l'adresse ci-dessous.", "address": "Adresse du portefeuille USDT", "note": "Réseaux supportés : TRC20, ERC20" },
+    "ethereum": { "title": "Ethereum (ETH)", "desc": "Envoyez des ETH à notre adresse de portefeuille.", "address": "Adresse du portefeuille Ethereum", "note": "Réseau : Ethereum Mainnet" },
+    "cashapp": { "title": "CashApp", "desc": "Envoyez le paiement via CashApp à notre $Cashtag.", "cashtag": "$Cashtag CashApp", "note": "Clients américains uniquement" },
+    "copy": "Copier",
+    "copied": "Copié !",
+    "note": "Après le paiement, envoyez une preuve de paiement par e-mail ou WhatsApp avec les détails de votre commande."
+  },
+  "admin": {
+    "login": { "title": "Connexion Admin", "subtitle": "Connectez-vous au tableau de bord PeptideForge", "email": "Adresse e-mail", "password": "Mot de passe", "submit": "Se connecter", "signing": "Connexion...", "forgot": "Mot de passe oublié ?", "error": "Email ou mot de passe invalide" },
+    "nav": { "dashboard": "Tableau de bord", "products": "Produits", "inquiries": "Demandes", "analytics": "Analytique", "export": "Exporter", "settings": "Paramètres", "logout": "Déconnexion" },
+    "dashboard": { "title": "Tableau de bord", "totalProducts": "Total produits", "totalInquiries": "Total demandes", "newInquiries": "Nouvelles demandes", "responseRate": "Taux de réponse", "recentInquiries": "Demandes récentes", "viewAll": "Voir tout" },
+    "products": { "title": "Produits", "add": "Ajouter un produit", "edit": "Modifier", "delete": "Supprimer", "search": "Rechercher des produits...", "name": "Nom du produit", "category": "Catégorie", "purity": "Pureté %", "price": "Prix (USD)", "actions": "Actions", "confirmDelete": "Êtes-vous sûr de vouloir supprimer ce produit ?", "deleteSuccess": "Produit supprimé", "saveSuccess": "Produit sauvegardé", "form": { "title": "Ajouter un produit", "editTitle": "Modifier le produit", "name": "Nom du produit", "category": "Catégorie", "description": "Description", "applications": "Applications (séparées par des virgules)", "purity": "Pureté %", "molecularWeight": "Poids moléculaire", "mwUnit": "Unité", "sequence": "Séquence d'acides aminés", "price": "Prix en USD", "image": "Image du produit", "dragDrop": "Glissez-déposez l'image ici, ou cliquez pour sélectionner", "save": "Enregistrer", "cancel": "Annuler" } },
+    "inquiries": { "title": "Demandes", "search": "Rechercher...", "date": "Date", "customer": "Client", "email": "E-mail", "phone": "Téléphone", "whatsapp": "WhatsApp", "peptide": "Peptide", "status": "Statut", "actions": "Actions", "view": "Voir", "delete": "Supprimer", "markResponded": "Marquer comme répondu", "addNote": "Ajouter une note", "notes": "Notes admin", "statuses": { "pending": "En attente", "responded": "Répondu", "completed": "Terminé", "archived": "Archivé" }, "filterStatus": "Filtrer par statut", "all": "Tous", "confirmDelete": "Supprimer cette demande ?", "deleteSuccess": "Demande supprimée", "updateSuccess": "Demande mise à jour" },
+    "analytics": { "title": "Analytique", "inquiriesOverTime": "Demandes dans le temps", "topProducts": "Produits les plus demandés", "byStatus": "Demandes par statut", "revenueEstimate": "Estimation des revenus", "last30Days": "30 derniers jours", "noData": "Aucune donnée disponible" },
+    "export": { "title": "Exporter les données", "inquiriesCSV": "Exporter les demandes (CSV)", "productsCSV": "Exporter les produits (CSV)", "pdfReport": "Générer un rapport PDF", "dateFrom": "Date de début", "dateTo": "Date de fin", "generating": "Génération...", "success": "Export prêt" },
+    "settings": { "title": "Paramètres", "companyInfo": "Informations de l'entreprise", "companyName": "Nom de l'entreprise", "companyEmail": "E-mail de l'entreprise", "companyPhone": "Téléphone", "whatsapp": "Numéro WhatsApp", "logo": "Logo de l'entreprise", "uploadLogo": "Télécharger le logo", "display": "Préférences d'affichage", "currency": "Devise", "dateFormat": "Format de date", "security": "Sécurité", "changePassword": "Changer le mot de passe", "currentPassword": "Mot de passe actuel", "newPassword": "Nouveau mot de passe", "confirmPassword": "Confirmer le mot de passe", "save": "Enregistrer", "saving": "Enregistrement...", "saveSuccess": "Paramètres enregistrés" }
+  },
+  "common": {
+    "loading": "Chargement...", "error": "Une erreur est survenue. Veuillez réessayer.", "save": "Enregistrer", "cancel": "Annuler", "delete": "Supprimer", "edit": "Modifier", "view": "Voir", "close": "Fermer", "confirm": "Confirmer", "search": "Rechercher", "filter": "Filtrer", "reset": "Réinitialiser", "noData": "Aucune donnée trouvée", "darkMode": "Mode sombre", "lightMode": "Mode clair", "language": "Langue", "selectLanguage": "Choisir la langue", "continue": "Continuer", "back": "Retour", "next": "Suivant", "submit": "Soumettre", "or": "ou", "and": "et", "usd": "USD", "perPage": "Par page", "page": "Page", "of": "de"
+  },
+  "languages": { "en": "Anglais", "fr": "Français", "es": "Espagnol", "de": "Allemand", "pt": "Portugais", "zh": "Chinois (simplifié)" }
+}

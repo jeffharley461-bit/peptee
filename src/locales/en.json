@@ -1,0 +1,342 @@
+{
+  "nav": {
+    "catalog": "Catalog",
+    "howItWorks": "How It Works",
+    "contact": "Contact",
+    "admin": "Admin",
+    "home": "Home"
+  },
+  "home": {
+    "hero": {
+      "title": "Advance Your Research with Premium Peptides",
+      "subtitle": "Custom peptide synthesis & R&D consulting for the future. Research-grade quality, expert guidance, fast delivery.",
+      "ctaCatalog": "Browse Catalog",
+      "ctaQuote": "Request a Quote"
+    },
+    "marquee": {
+      "text": "🧬 Custom peptide synthesis in 2-3 weeks  |  🚀 99%+ purity guaranteed  |  💊 Peptides for research, therapy, and biotechnology  |  📊 Real-time project tracking  |  🔬 Expert R&D consulting  |  ⚡ Fast worldwide delivery  |  "
+    },
+    "services": {
+      "title": "Our Services",
+      "subtitle": "End-to-end peptide solutions for researchers, biotech companies, and pharmaceutical firms",
+      "synthesis": {
+        "title": "Custom Synthesis",
+        "desc": "Precision-engineered peptides synthesized to your exact specifications with industry-leading purity."
+      },
+      "consulting": {
+        "title": "R&D Consulting",
+        "desc": "Expert guidance on peptide design, optimization, and application for your research projects."
+      },
+      "testing": {
+        "title": "Quality Testing",
+        "desc": "Comprehensive analytical testing including HPLC, mass spectrometry, and purity verification."
+      },
+      "delivery": {
+        "title": "Fast Delivery",
+        "desc": "Expedited worldwide shipping with cold-chain logistics to preserve peptide integrity."
+      }
+    },
+    "caseStudies": {
+      "title": "Recent Projects",
+      "subtitle": "Real-world applications of our peptide synthesis expertise"
+    },
+    "payment": {
+      "title": "We Accept Multiple Payment Methods",
+      "subtitle": "Flexible payment options for global clients",
+      "viewInstructions": "View payment instructions"
+    }
+  },
+  "catalog": {
+    "title": "Peptide Catalog",
+    "subtitle": "Browse our extensive collection of research-grade peptides",
+    "search": "Search peptides...",
+    "filterCategory": "All Categories",
+    "sortBy": "Sort by",
+    "sortNewest": "Newest",
+    "sortPriceAsc": "Price: Low to High",
+    "sortPriceDesc": "Price: High to Low",
+    "sortPurity": "Purity",
+    "noResults": "No peptides found matching your criteria.",
+    "clearFilters": "Clear Filters",
+    "viewDetails": "View Details",
+    "requestQuote": "Request Quote",
+    "purity": "Purity",
+    "mw": "MW",
+    "priceFrom": "From"
+  },
+  "peptide": {
+    "details": "Product Details",
+    "description": "Description",
+    "applications": "Applications",
+    "specifications": "Specifications",
+    "name": "Name",
+    "category": "Category",
+    "purity": "Purity",
+    "molecularWeight": "Molecular Weight",
+    "sequence": "Amino Acid Sequence",
+    "price": "Price (USD)",
+    "requestQuote": "Request a Quote",
+    "relatedPeptides": "Related Peptides",
+    "backToCatalog": "Back to Catalog",
+    "imageOf": "Image of"
+  },
+  "inquiry": {
+    "title": "Submit Inquiry",
+    "subtitle": "Tell us about your project and we'll get back to you within 24 hours",
+    "name": "Full Name",
+    "namePlaceholder": "Dr. Jane Smith",
+    "email": "Email Address",
+    "emailPlaceholder": "jane@university.edu",
+    "phone": "Phone Number",
+    "phonePlaceholder": "+1 (555) 000-0000",
+    "whatsapp": "WhatsApp Number",
+    "whatsappPlaceholder": "+1 (555) 000-0000",
+    "peptide": "Peptide of Interest",
+    "details": "Project Details",
+    "detailsPlaceholder": "Describe your research project, required quantity, timeline, and any special requirements...",
+    "document": "Attach Document (optional)",
+    "documentHint": "PDF, DOCX up to 10MB",
+    "submit": "Submit Inquiry",
+    "submitting": "Submitting...",
+    "success": "Inquiry submitted successfully! Redirecting to WhatsApp...",
+    "error": "Something went wrong. Please try again.",
+    "required": "Required field",
+    "invalidEmail": "Invalid email address"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Have a question? We'd love to hear from you.",
+    "form": {
+      "name": "Your Name",
+      "email": "Email Address",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent! We'll respond within 24 hours.",
+      "error": "Failed to send. Please try again."
+    },
+    "whatsapp": "Chat on WhatsApp",
+    "email": "Email Us",
+    "hours": "Office Hours",
+    "hoursValue": "Monday – Friday, 9 AM – 6 PM EST",
+    "response": "Response Time",
+    "responseValue": "Within 24 hours"
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "From inquiry to delivery — our streamlined process",
+    "steps": {
+      "1": { "title": "Submit Your Inquiry", "desc": "Fill out our inquiry form with your peptide specifications, quantity, and project details." },
+      "2": { "title": "Receive Your Quote", "desc": "Our team reviews your requirements and sends a detailed quote within 24 hours." },
+      "3": { "title": "Confirm & Synthesize", "desc": "Upon approval, our scientists begin synthesis using state-of-the-art SPPS technology." },
+      "4": { "title": "Quality Testing", "desc": "Each batch undergoes rigorous HPLC and mass spectrometry analysis to verify purity." },
+      "5": { "title": "Delivery", "desc": "Your peptides are shipped with cold-chain logistics and full documentation." }
+    },
+    "features": {
+      "title": "Why Choose PeptideForge?",
+      "purity": { "title": "99%+ Purity", "desc": "Industry-leading purity standards verified by HPLC analysis." },
+      "speed": { "title": "2-3 Week Turnaround", "desc": "Fast synthesis without compromising on quality." },
+      "support": { "title": "Expert Support", "desc": "PhD-level scientists available to assist with your project." },
+      "custom": { "title": "Fully Custom", "desc": "Any sequence, any modification, any scale." }
+    }
+  },
+  "payment": {
+    "title": "Payment Instructions",
+    "subtitle": "We accept the following cryptocurrencies and digital payment methods",
+    "bitcoin": {
+      "title": "Bitcoin (BTC)",
+      "desc": "Send BTC to our wallet address below. Please include your order ID in the transaction notes.",
+      "address": "Bitcoin Wallet Address",
+      "note": "Minimum confirmation: 2 blocks"
+    },
+    "usdt": {
+      "title": "USDT (Tether)",
+      "desc": "Send USDT (TRC20 or ERC20) to the address below.",
+      "address": "USDT Wallet Address",
+      "note": "Supported networks: TRC20, ERC20"
+    },
+    "ethereum": {
+      "title": "Ethereum (ETH)",
+      "desc": "Send ETH to our wallet address. Please confirm the network before sending.",
+      "address": "Ethereum Wallet Address",
+      "note": "Network: Ethereum Mainnet"
+    },
+    "cashapp": {
+      "title": "CashApp",
+      "desc": "Send payment via CashApp to our $Cashtag below.",
+      "cashtag": "CashApp $Cashtag",
+      "note": "US clients only"
+    },
+    "copy": "Copy",
+    "copied": "Copied!",
+    "note": "After payment, please send proof of payment to our email or WhatsApp with your order details."
+  },
+  "admin": {
+    "login": {
+      "title": "Admin Login",
+      "subtitle": "Sign in to access the PeptideForge dashboard",
+      "email": "Email Address",
+      "password": "Password",
+      "submit": "Sign In",
+      "signing": "Signing in...",
+      "forgot": "Forgot password?",
+      "error": "Invalid email or password"
+    },
+    "nav": {
+      "dashboard": "Dashboard",
+      "products": "Products",
+      "inquiries": "Inquiries",
+      "analytics": "Analytics",
+      "export": "Export",
+      "settings": "Settings",
+      "logout": "Sign Out"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "totalProducts": "Total Products",
+      "totalInquiries": "Total Inquiries",
+      "newInquiries": "New Inquiries",
+      "responseRate": "Response Rate",
+      "recentInquiries": "Recent Inquiries",
+      "viewAll": "View All"
+    },
+    "products": {
+      "title": "Products",
+      "add": "Add Product",
+      "edit": "Edit",
+      "delete": "Delete",
+      "search": "Search products...",
+      "name": "Product Name",
+      "category": "Category",
+      "purity": "Purity %",
+      "price": "Price (USD)",
+      "actions": "Actions",
+      "confirmDelete": "Are you sure you want to delete this product?",
+      "deleteSuccess": "Product deleted successfully",
+      "saveSuccess": "Product saved successfully",
+      "form": {
+        "title": "Add New Product",
+        "editTitle": "Edit Product",
+        "name": "Product Name",
+        "category": "Category",
+        "description": "Description",
+        "applications": "Applications (comma-separated)",
+        "purity": "Purity %",
+        "molecularWeight": "Molecular Weight",
+        "mwUnit": "Unit",
+        "sequence": "Amino Acid Sequence",
+        "price": "Price in USD",
+        "image": "Product Image",
+        "dragDrop": "Drag & drop image here, or click to select",
+        "save": "Save Product",
+        "cancel": "Cancel"
+      }
+    },
+    "inquiries": {
+      "title": "Inquiries",
+      "search": "Search inquiries...",
+      "date": "Date",
+      "customer": "Customer",
+      "email": "Email",
+      "phone": "Phone",
+      "whatsapp": "WhatsApp",
+      "peptide": "Peptide",
+      "status": "Status",
+      "actions": "Actions",
+      "view": "View",
+      "delete": "Delete",
+      "markResponded": "Mark Responded",
+      "addNote": "Add Note",
+      "notes": "Admin Notes",
+      "statuses": {
+        "pending": "Pending",
+        "responded": "Responded",
+        "completed": "Completed",
+        "archived": "Archived"
+      },
+      "filterStatus": "Filter by status",
+      "all": "All",
+      "confirmDelete": "Delete this inquiry?",
+      "deleteSuccess": "Inquiry deleted",
+      "updateSuccess": "Inquiry updated"
+    },
+    "analytics": {
+      "title": "Analytics",
+      "inquiriesOverTime": "Inquiries Over Time",
+      "topProducts": "Top Requested Products",
+      "byStatus": "Inquiries by Status",
+      "revenueEstimate": "Revenue Estimate",
+      "last30Days": "Last 30 days",
+      "noData": "No data available"
+    },
+    "export": {
+      "title": "Export Data",
+      "inquiriesCSV": "Export Inquiries (CSV)",
+      "productsCSV": "Export Products (CSV)",
+      "pdfReport": "Generate PDF Report",
+      "dateFrom": "From Date",
+      "dateTo": "To Date",
+      "generating": "Generating...",
+      "success": "Export ready"
+    },
+    "settings": {
+      "title": "Settings",
+      "companyInfo": "Company Information",
+      "companyName": "Company Name",
+      "companyEmail": "Company Email",
+      "companyPhone": "Phone Number",
+      "whatsapp": "WhatsApp Number",
+      "logo": "Company Logo",
+      "uploadLogo": "Upload Logo",
+      "display": "Display Preferences",
+      "currency": "Currency",
+      "dateFormat": "Date Format",
+      "security": "Security",
+      "changePassword": "Change Password",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "saveSuccess": "Settings saved successfully"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred. Please try again.",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "close": "Close",
+    "confirm": "Confirm",
+    "search": "Search",
+    "filter": "Filter",
+    "reset": "Reset",
+    "noData": "No data found",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "language": "Language",
+    "selectLanguage": "Select Language",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit",
+    "or": "or",
+    "and": "and",
+    "usd": "USD",
+    "perPage": "Per page",
+    "page": "Page",
+    "of": "of"
+  },
+  "languages": {
+    "en": "English",
+    "fr": "French",
+    "es": "Spanish",
+    "de": "German",
+    "pt": "Portuguese",
+    "zh": "Chinese (Simplified)"
+  }
+}

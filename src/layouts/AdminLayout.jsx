@@ -10,13 +10,16 @@ import {
   BeakerIcon, Bars3Icon, XMarkIcon
 } from '@heroicons/react/24/outline'
 
+import { TagIcon } from '@heroicons/react/24/outline'
+
 const navItems = [
-  { to: '/admin/dashboard', icon: HomeIcon,          key: 'dashboard' },
-  { to: '/admin/products',  icon: CubeIcon,          key: 'products' },
-  { to: '/admin/inquiries', icon: InboxIcon,         key: 'inquiries' },
-  { to: '/admin/analytics', icon: ChartBarIcon,      key: 'analytics' },
-  { to: '/admin/export',    icon: ArrowDownTrayIcon, key: 'export' },
-  { to: '/admin/settings',  icon: Cog6ToothIcon,     key: 'settings' },
+  { to: '/admin/dashboard',   icon: HomeIcon,          key: 'dashboard' },
+  { to: '/admin/products',    icon: CubeIcon,          key: 'products' },
+  { to: '/admin/categories',  icon: TagIcon,           label: 'Categories' },
+  { to: '/admin/inquiries',   icon: InboxIcon,         key: 'inquiries' },
+  { to: '/admin/analytics',   icon: ChartBarIcon,      key: 'analytics' },
+  { to: '/admin/export',      icon: ArrowDownTrayIcon, key: 'export' },
+  { to: '/admin/settings',    icon: Cog6ToothIcon,     key: 'settings' },
 ]
 
 export default function AdminLayout() {
@@ -49,7 +52,7 @@ export default function AdminLayout() {
           </button>
         </div>
         <nav className="py-4 space-y-1 px-2">
-          {navItems.map(({ to, icon: Icon, key }) => (
+          {navItems.map(({ to, icon: Icon, key, label }) => (
             <NavLink
               key={to}
               to={to}
@@ -61,7 +64,7 @@ export default function AdminLayout() {
               }
             >
               <Icon className="h-5 w-5" />
-              {t(`admin.nav.${key}`)}
+              {label || t(`admin.nav.${key}`)}
             </NavLink>
           ))}
           <button

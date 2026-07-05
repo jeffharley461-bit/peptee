@@ -12,6 +12,10 @@ const ContactPage             = lazy(() => import('./pages/ContactPage'))
 const HowItWorksPage          = lazy(() => import('./pages/HowItWorksPage'))
 const PaymentInstructionsPage = lazy(() => import('./pages/PaymentInstructionsPage'))
 
+const FAQPage         = lazy(() => import('./pages/FAQPage'))
+const AboutPage       = lazy(() => import('./pages/AboutPage'))
+const DisclaimerPage  = lazy(() => import('./pages/DisclaimerPage'))
+
 const LoginPage      = lazy(() => import('./pages/admin/LoginPage'))
 const DashboardPage  = lazy(() => import('./pages/admin/DashboardPage'))
 const ProductsPage   = lazy(() => import('./pages/admin/ProductsPage'))
@@ -48,6 +52,9 @@ export default function App() {
             <Route path="/contact"              element={<ContactPage />} />
             <Route path="/how-it-works"         element={<HowItWorksPage />} />
             <Route path="/payment-instructions" element={<PaymentInstructionsPage />} />
+            <Route path="/faq"                  element={<FAQPage />} />
+            <Route path="/about"                element={<AboutPage />} />
+            <Route path="/disclaimer"           element={<DisclaimerPage />} />
           </Route>
 
           <Route path="/admin/login" element={<LoginPage />} />

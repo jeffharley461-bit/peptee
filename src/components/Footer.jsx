@@ -10,9 +10,9 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 dark:bg-gray-950 text-gray-300 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Brand */}
-          <div>
+          <div className="col-span-2 md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <BeakerIcon className="h-6 w-6 text-primary" />
               <span className="text-white font-bold text-lg">PeptideForge</span>
@@ -22,14 +22,24 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Links */}
+          {/* Navigation */}
           <div>
             <h4 className="text-white font-semibold mb-3">Navigation</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/catalog"               className="hover:text-white transition-colors">{t('nav.catalog')}</Link></li>
-              <li><Link to="/how-it-works"           className="hover:text-white transition-colors">{t('nav.howItWorks')}</Link></li>
-              <li><Link to="/contact"               className="hover:text-white transition-colors">{t('nav.contact')}</Link></li>
-              <li><Link to="/payment-instructions"  className="hover:text-white transition-colors">Payment Methods</Link></li>
+              <li><Link to="/catalog"              className="hover:text-white transition-colors">{t('nav.catalog')}</Link></li>
+              <li><Link to="/how-it-works"          className="hover:text-white transition-colors">{t('nav.howItWorks')}</Link></li>
+              <li><Link to="/contact"              className="hover:text-white transition-colors">{t('nav.contact')}</Link></li>
+              <li><Link to="/payment-instructions" className="hover:text-white transition-colors">Payment</Link></li>
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div>
+            <h4 className="text-white font-semibold mb-3">Company</h4>
+            <ul className="space-y-2 text-sm">
+              <li><Link to="/about"      className="hover:text-white transition-colors">About Us</Link></li>
+              <li><Link to="/faq"        className="hover:text-white transition-colors">FAQ</Link></li>
+              <li><Link to="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link></li>
             </ul>
           </div>
 

@@ -51,11 +51,16 @@
   }
 }
 
+@keyframes marquee {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
 @layer utilities {
   .marquee-track {
     display: flex;
     width: max-content;
-    animation: marquee 30s linear infinite;
+    animation: marquee 40s linear infinite;
     will-change: transform;
   }
 

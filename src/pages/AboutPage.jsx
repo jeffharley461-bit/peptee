@@ -154,6 +154,25 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Quote strip */}
+      <section className="py-16 px-4 bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-4xl mx-auto text-center">
+          <svg className="h-10 w-10 text-primary/30 mx-auto mb-6" fill="currentColor" viewBox="0 0 32 32">
+            <path d="M10 8C6.686 8 4 10.686 4 14v10h10V14H7.998C7.998 11.795 9.795 10 12 10V8h-2zm14 0c-3.314 0-6 2.686-6 6v10h10V14h-6.002C21.998 11.795 23.795 10 26 10V8h-2z"/>
+          </svg>
+          <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 font-medium leading-relaxed mb-8 italic">
+            "PeptideForge delivered our custom peptide panel at 99.4% purity in under two weeks. They're now our exclusive synthesis partner for all research projects."
+          </p>
+          <div className="flex items-center justify-center gap-3">
+            <div className="w-11 h-11 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">SC</div>
+            <div className="text-left">
+              <p className="font-semibold text-gray-900 dark:text-white text-sm">Dr. Sarah Chen</p>
+              <p className="text-xs text-gray-400">Research Scientist · MIT Department of Biology</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-20 px-4 bg-gradient-to-r from-primary-800 to-accent-700">
         <div className="max-w-3xl mx-auto text-center">

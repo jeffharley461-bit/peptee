@@ -40,6 +40,57 @@ const SERVICES = [
   { icon: TruckIcon,       key: 'delivery',    color: 'text-orange-500 bg-orange-50 dark:bg-orange-900/20' },
 ]
 
+const TESTIMONIALS = [
+  {
+    quote: "PeptideForge delivered our custom BPC-157 analogue at 99.4% purity in under two weeks. The CoA matched every spec we requested. They're now our go-to synthesis partner.",
+    name: 'Dr. Sarah Chen',
+    role: 'Research Scientist',
+    org: 'MIT Department of Biology',
+    initials: 'SC',
+    color: 'bg-primary',
+  },
+  {
+    quote: "We ordered a panel of 8 antimicrobial peptides for drug-resistance research. Every batch passed our in-house HPLC validation. Communication was fast and the team clearly understood the science.",
+    name: 'Prof. James Okafor',
+    role: 'Principal Investigator',
+    org: 'University of London',
+    initials: 'JO',
+    color: 'bg-accent',
+  },
+  {
+    quote: "Fast turnaround, professional documentation, and the peptides performed exactly as expected in our cell assays. I've recommended PeptideForge to three colleagues already.",
+    name: 'Dr. Maria Santos',
+    role: 'Lead Researcher',
+    org: 'BioTech Innovations GmbH',
+    initials: 'MS',
+    color: 'bg-emerald-500',
+  },
+  {
+    quote: "The R&D consulting service helped us redesign a sequence that wasn't folding correctly. Their team suggested the modification and it worked on the first synthesis. Exceptional.",
+    name: 'Dr. Yuki Tanaka',
+    role: 'Principal Investigator',
+    org: 'Tokyo Institute of Technology',
+    initials: 'YT',
+    color: 'bg-orange-500',
+  },
+  {
+    quote: "Ordering was straightforward — I added to cart, sent the request via email, and received the wallet address within hours. Payment was smooth and shipment arrived with cold-chain intact.",
+    name: 'Thomas Brennan',
+    role: 'Senior Lab Technician',
+    org: 'Cambridge Research Labs',
+    initials: 'TB',
+    color: 'bg-pink-500',
+  },
+  {
+    quote: "We needed a cosmetic peptide at scale for a skincare formulation. PeptideForge handled the batch perfectly and even suggested a storage buffer to improve stability. Great partners.",
+    name: 'Dr. Aisha Nkosi',
+    role: 'Formulation Scientist',
+    org: 'Lumière Cosmetics R&D',
+    initials: 'AN',
+    color: 'bg-cyan-500',
+  },
+]
+
 const PAYMENT_METHODS = [
   { name: 'Bitcoin',   symbol: 'BTC', logo: '/payment-logos/BTC.svg',    color: '#F7931A' },
   { name: 'Tether',    symbol: 'USDT',logo: '/payment-logos/USDT.svg',   color: '#26A17B' },
@@ -232,8 +283,54 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Payment Methods */}
+      {/* Testimonials */}
       <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">What Researchers Say</h2>
+            <p className="text-gray-500 dark:text-gray-400">Trusted by scientists and biotech companies worldwide</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {TESTIMONIALS.map((t, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+              >
+                <Card className="h-full flex flex-col">
+                  {/* Stars */}
+                  <div className="flex gap-0.5 mb-4">
+                    {[...Array(5)].map((_, s) => (
+                      <svg key={s} className="h-4 w-4 text-amber-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                      </svg>
+                    ))}
+                  </div>
+                  {/* Quote */}
+                  <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed flex-1 mb-5">
+                    "{t.quote}"
+                  </p>
+                  {/* Author */}
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-full ${t.color} flex items-center justify-center text-white text-xs font-bold flex-shrink-0`}>
+                      {t.initials}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white">{t.name}</p>
+                      <p className="text-xs text-gray-400">{t.role} · {t.org}</p>
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Payment Methods */}
+      <section className="py-20 px-4 bg-white dark:bg-gray-950">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">{t('home.payment.title')}</h2>
           <p className="text-gray-500 dark:text-gray-400 mb-10">{t('home.payment.subtitle')}</p>

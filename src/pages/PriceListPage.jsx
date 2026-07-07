@@ -7,40 +7,71 @@ import {
   MagnifyingGlassIcon,
   ArrowRightIcon,
   ChatBubbleLeftEllipsisIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from '@heroicons/react/24/outline'
 
-export default function PriceListPage() {
-  const [items,   setItems]   = useState([])
-  const [loading, setLoading] = useState(true)
-  const [search,  setSearch]  = useState('')
+const PAGE_SIZE = 50
 
+export default function PriceListPage() {
+  const [items,          setItems]          = useState([])
+  const [loading,        setLoading]        = useState(true)
+  const [search,         setSearch]         = useState('')
+  const [debouncedSearch,setDebouncedSearch] = useState('')
+  const [category,       setCategory]       = useState('all')
+  const [categories,     setCategories]     = useState([])
+  const [page,           setPage]           = useState(0)
+  const [total,          setTotal]          = useState(0)
+
+  // Debounce search input 300ms
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(search), 300)
+    return () => clearTimeout(t)
+  }, [search])
+
+  // Reset to page 0 when filters change
+  useEffect(() => { setPage(0) }, [debouncedSearch, category])
+
+  // Fetch distinct categories for tab labels (once)
   useEffect(() => {
     supabase
       .from('price_list')
-      .select('*')
-      .order('category', { nullsFirst: false })
-      .order('display_order')
-      .order('name')
-      .then(({ data }) => { setItems(data || []); setLoading(false) })
+      .select('category')
+      .not('category', 'is', null)
+      .order('category')
+      .then(({ data }) => {
+        const unique = [...new Set((data || []).map(r => r.category))].filter(Boolean)
+        setCategories(unique)
+      })
   }, [])
 
-  const filtered = items.filter(item =>
-    item.name.toLowerCase().includes(search.toLowerCase()) ||
-    (item.category || '').toLowerCase().includes(search.toLowerCase())
-  )
+  // Main data fetch — re-runs when search/category/page changes
+  useEffect(() => {
+    setLoading(true)
+    const from = page * PAGE_SIZE
+    const to   = from + PAGE_SIZE - 1
 
-  const groups = filtered.reduce((acc, item) => {
-    const key = item.category || 'Other'
-    if (!acc[key]) acc[key] = []
-    acc[key].push(item)
-    return acc
-  }, {})
+    let q = supabase
+      .from('price_list')
+      .select('*', { count: 'exact' })
+      .order('category', { nullsFirst: false })
+      .order('name')
+      .range(from, to)
 
-  const sortedGroups = Object.entries(groups).sort(([a], [b]) => {
-    if (a === 'Other') return 1
-    if (b === 'Other') return -1
-    return a.localeCompare(b)
-  })
+    if (category !== 'all') q = q.eq('category', category)
+    if (debouncedSearch)    q = q.ilike('name', `%${debouncedSearch}%`)
+
+    q.then(({ data, count }) => {
+      setItems(data || [])
+      setTotal(count || 0)
+      setLoading(false)
+    })
+  }, [debouncedSearch, category, page])
+
+  const totalPages  = Math.max(1, Math.ceil(total / PAGE_SIZE))
+  const showFrom    = total === 0 ? 0 : page * PAGE_SIZE + 1
+  const showTo      = Math.min((page + 1) * PAGE_SIZE, total)
+  const showCategory = category === 'all'
 
   return (
     <div>
@@ -53,7 +84,7 @@ export default function PriceListPage() {
             transition={{ duration: 0.6 }}
           >
             <span className="inline-block px-4 py-1.5 bg-primary/20 text-primary-300 text-sm font-medium rounded-full mb-6 border border-primary/30">
-              💊 Current Prices
+              Current Prices
             </span>
             <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-4">
               Peptide Price List
@@ -76,76 +107,120 @@ export default function PriceListPage() {
         </div>
       </section>
 
-      {/* Price tables */}
-      <section className="py-14 px-4 bg-gray-50 dark:bg-gray-900 min-h-[40vh]">
-        <div className="max-w-5xl mx-auto">
-          {loading ? (
-            <div className="space-y-6">
-              {[1, 2, 3].map(i => (
-                <div key={i} className="h-40 bg-gray-200 dark:bg-gray-800 rounded-xl animate-pulse" />
-              ))}
-            </div>
-          ) : sortedGroups.length === 0 ? (
-            <div className="text-center py-24 text-gray-400">
-              <p className="text-lg">
-                {search ? `No peptides found for "${search}"` : 'Price list coming soon.'}
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-10">
-              {sortedGroups.map(([category, categoryItems], gi) => (
-                <motion.div
-                  key={category}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: gi * 0.05 }}
-                >
-                  <h2 className="text-base font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-primary flex-shrink-0" />
-                    {category}
-                    <span className="text-sm font-normal text-gray-400">
-                      ({categoryItems.length})
-                    </span>
-                  </h2>
+      {/* Category tabs + table */}
+      <section className="py-10 px-4 bg-gray-50 dark:bg-gray-900 min-h-[50vh]">
+        <div className="max-w-6xl mx-auto">
 
-                  <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden overflow-x-auto">
-                    <table className="w-full text-sm min-w-[480px]">
-                      <thead className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-                        <tr>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Peptide</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Unit</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Price (USD)</th>
-                          <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Availability</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
-                        {categoryItems.map(item => (
-                          <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                            <td className="px-4 py-3">
-                              <p className="font-medium text-gray-900 dark:text-white">{item.name}</p>
-                              {item.notes && (
-                                <p className="text-xs text-gray-400 mt-0.5">{item.notes}</p>
-                              )}
-                            </td>
-                            <td className="px-4 py-3 text-gray-500 dark:text-gray-400">
-                              {item.unit || '—'}
-                            </td>
-                            <td className="px-4 py-3 font-bold text-primary">
-                              ${parseFloat(item.price_usd).toFixed(2)}
-                            </td>
-                            <td className="px-4 py-3">
-                              <Badge variant={item.in_stock ? 'success' : 'default'}>
-                                {item.in_stock ? 'In Stock' : 'Out of Stock'}
-                              </Badge>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </motion.div>
+          {/* Category filter tabs */}
+          {categories.length > 0 && (
+            <div className="flex gap-2 flex-wrap mb-6 overflow-x-auto pb-1">
+              {['all', ...categories].map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setCategory(cat)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors border ${
+                    category === cat
+                      ? 'bg-primary text-white border-primary'
+                      : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-primary hover:text-primary'
+                  }`}
+                >
+                  {cat === 'all' ? 'All Peptides' : cat}
+                </button>
               ))}
+            </div>
+          )}
+
+          {/* Table */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden overflow-x-auto">
+            <table className="w-full text-sm min-w-[520px]">
+              <thead className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Peptide</th>
+                  {showCategory && (
+                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Category</th>
+                  )}
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Unit</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Price (USD)</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Availability</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
+                {loading ? (
+                  [...Array(8)].map((_, i) => (
+                    <tr key={i}>
+                      <td colSpan={showCategory ? 5 : 4} className="px-4 py-3">
+                        <div className="h-5 bg-gray-100 dark:bg-gray-700 rounded animate-pulse" />
+                      </td>
+                    </tr>
+                  ))
+                ) : items.length === 0 ? (
+                  <tr>
+                    <td colSpan={showCategory ? 5 : 4} className="px-4 py-16 text-center text-gray-400">
+                      {debouncedSearch
+                        ? `No peptides found for "${debouncedSearch}"`
+                        : 'No items in this category yet.'}
+                    </td>
+                  </tr>
+                ) : (
+                  items.map(item => (
+                    <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                      <td className="px-4 py-3">
+                        <p className="font-medium text-gray-900 dark:text-white">{item.name}</p>
+                        {item.notes && (
+                          <p className="text-xs text-gray-400 mt-0.5">{item.notes}</p>
+                        )}
+                      </td>
+                      {showCategory && (
+                        <td className="px-4 py-3 text-gray-500 dark:text-gray-400 text-sm">
+                          {item.category || <span className="text-gray-300">—</span>}
+                        </td>
+                      )}
+                      <td className="px-4 py-3 text-gray-500 dark:text-gray-400">
+                        {item.unit || '—'}
+                      </td>
+                      <td className="px-4 py-3 font-bold text-primary">
+                        ${parseFloat(item.price_usd).toFixed(2)}
+                      </td>
+                      <td className="px-4 py-3">
+                        <Badge variant={item.in_stock ? 'success' : 'default'}>
+                          {item.in_stock ? 'In Stock' : 'Out of Stock'}
+                        </Badge>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Pagination */}
+          {!loading && total > 0 && (
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 text-sm text-gray-500 dark:text-gray-400">
+              <p>
+                Showing <span className="font-medium text-gray-700 dark:text-gray-200">{showFrom}–{showTo}</span> of{' '}
+                <span className="font-medium text-gray-700 dark:text-gray-200">{total}</span> peptides
+              </p>
+              <div className="flex items-center gap-2">
+                <button
+                  disabled={page === 0}
+                  onClick={() => setPage(p => p - 1)}
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-primary hover:text-primary disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ChevronLeftIcon className="h-4 w-4" />
+                  Prev
+                </button>
+                <span className="px-3 py-1.5 text-gray-600 dark:text-gray-300">
+                  Page {page + 1} of {totalPages}
+                </span>
+                <button
+                  disabled={page >= totalPages - 1}
+                  onClick={() => setPage(p => p + 1)}
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-primary hover:text-primary disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                >
+                  Next
+                  <ChevronRightIcon className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           )}
         </div>

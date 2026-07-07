@@ -48,10 +48,13 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-3">Contact</h4>
             <ul className="space-y-2 text-sm">
-              <li className="flex items-center gap-2">
-                <GmailLogo className="h-4 w-4 flex-shrink-0" />
-                <a href="mailto:jeffharley461@gmail.com" className="hover:text-white transition-colors">
-                  jeffharley461@gmail.com
+              <li>
+                <a
+                  href="mailto:jeffharley461@gmail.com"
+                  className="flex items-center gap-2 hover:text-white transition-colors"
+                >
+                  <GmailLogo className="h-4 w-4 flex-shrink-0 text-red-400" />
+                  <span>Email</span>
                 </a>
               </li>
               <li>

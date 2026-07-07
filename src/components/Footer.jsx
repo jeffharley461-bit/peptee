@@ -54,9 +54,16 @@ export default function Footer() {
                   jeffharley461@gmail.com
                 </a>
               </li>
-              <li className="flex items-center gap-2">
-                <WhatsAppLogo className="h-4 w-4 flex-shrink-0" />
-                <span className="text-gray-400">WhatsApp (coming soon)</span>
+              <li>
+                <a
+                  href="https://wa.me/19128086267"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-white transition-colors"
+                >
+                  <WhatsAppLogo className="h-4 w-4 flex-shrink-0 text-green-500" />
+                  <span>WhatsApp</span>
+                </a>
               </li>
             </ul>
           </div>

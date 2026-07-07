@@ -7,7 +7,7 @@ import Button from '../../components/ui/Button'
 import Spinner from '../../components/ui/Spinner'
 import ProductForm from '../../components/admin/ProductForm'
 import toast from 'react-hot-toast'
-import { PlusIcon, PencilIcon, TrashIcon, MagnifyingGlassIcon, BeakerIcon } from '@heroicons/react/24/outline'
+import { PlusIcon, PencilIcon, TrashIcon, MagnifyingGlassIcon, XMarkIcon, BeakerIcon } from '@heroicons/react/24/outline'
 
 export default function ProductsPage() {
   const { t } = useTranslation()
@@ -47,8 +47,16 @@ export default function ProductsPage() {
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder={t('admin.products.search')}
-          className="input pl-10"
+          className="input pl-10 pr-8"
         />
+        {search && (
+          <button
+            onClick={() => setSearch('')}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+          >
+            <XMarkIcon className="h-4 w-4" />
+          </button>
+        )}
       </div>
 
       {loading ? (

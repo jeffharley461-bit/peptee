@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabase'
 import Badge from '../components/ui/Badge'
 import {
   MagnifyingGlassIcon,
+  XMarkIcon,
   ArrowRightIcon,
   ChatBubbleLeftEllipsisIcon,
   ChevronLeftIcon,
@@ -100,8 +101,16 @@ export default function PriceListPage() {
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder="Search peptides..."
-                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/15 transition"
+                className="w-full pl-12 pr-10 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white/15 transition"
               />
+              {search && (
+                <button
+                  onClick={() => setSearch('')}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors"
+                >
+                  <XMarkIcon className="h-4 w-4" />
+                </button>
+              )}
             </div>
           </motion.div>
         </div>

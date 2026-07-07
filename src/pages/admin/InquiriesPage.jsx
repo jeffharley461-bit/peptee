@@ -6,7 +6,7 @@ import Button from '../../components/ui/Button'
 import Badge from '../../components/ui/Badge'
 import Spinner from '../../components/ui/Spinner'
 import toast from 'react-hot-toast'
-import { MagnifyingGlassIcon, EyeIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, XMarkIcon, EyeIcon, TrashIcon } from '@heroicons/react/24/outline'
 
 const STATUSES = ['pending', 'responded', 'completed', 'archived']
 
@@ -58,8 +58,16 @@ export default function InquiriesPage() {
             value={filters.search}
             onChange={e => setFilters(f => ({ ...f, search: e.target.value }))}
             placeholder={t('admin.inquiries.search')}
-            className="input pl-9 text-sm"
+            className="input pl-9 pr-8 text-sm"
           />
+          {filters.search && (
+            <button
+              onClick={() => setFilters(f => ({ ...f, search: '' }))}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+            >
+              <XMarkIcon className="h-4 w-4" />
+            </button>
+          )}
         </div>
         <select
           value={filters.status}

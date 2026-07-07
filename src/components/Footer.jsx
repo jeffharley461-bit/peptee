@@ -30,6 +30,7 @@ export default function Footer() {
               <li><Link to="/how-it-works"          className="hover:text-white transition-colors">{t('nav.howItWorks')}</Link></li>
               <li><Link to="/contact"              className="hover:text-white transition-colors">{t('nav.contact')}</Link></li>
               <li><Link to="/payment-instructions" className="hover:text-white transition-colors">Payment</Link></li>
+              <li><Link to="/price-list"          className="hover:text-white transition-colors">Price List</Link></li>
             </ul>
           </div>
 

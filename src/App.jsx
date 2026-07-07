@@ -16,6 +16,9 @@ const FAQPage         = lazy(() => import('./pages/FAQPage'))
 const AboutPage       = lazy(() => import('./pages/AboutPage'))
 const DisclaimerPage  = lazy(() => import('./pages/DisclaimerPage'))
 
+const PriceListPage      = lazy(() => import('./pages/PriceListPage'))
+const AdminPriceListPage = lazy(() => import('./pages/admin/PriceListPage'))
+
 const LoginPage      = lazy(() => import('./pages/admin/LoginPage'))
 const DashboardPage  = lazy(() => import('./pages/admin/DashboardPage'))
 const ProductsPage   = lazy(() => import('./pages/admin/ProductsPage'))
@@ -55,6 +58,7 @@ export default function App() {
             <Route path="/faq"                  element={<FAQPage />} />
             <Route path="/about"                element={<AboutPage />} />
             <Route path="/disclaimer"           element={<DisclaimerPage />} />
+            <Route path="/price-list"           element={<PriceListPage />} />
           </Route>
 
           <Route path="/admin/login" element={<LoginPage />} />
@@ -64,7 +68,8 @@ export default function App() {
               <Route path="/admin"           element={<DashboardPage />} />
               <Route path="/admin/dashboard" element={<DashboardPage />} />
               <Route path="/admin/products"    element={<ProductsPage />} />
-              <Route path="/admin/categories" element={<CategoriesPage />} />
+              <Route path="/admin/categories"  element={<CategoriesPage />} />
+              <Route path="/admin/price-list" element={<AdminPriceListPage />} />
               <Route path="/admin/inquiries"  element={<InquiriesPage />} />
               <Route path="/admin/analytics" element={<AnalyticsPage />} />
               <Route path="/admin/export"    element={<ExportPage />} />

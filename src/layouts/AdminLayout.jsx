@@ -11,12 +11,14 @@ import {
 } from '@heroicons/react/24/outline'
 
 import { TagIcon } from '@heroicons/react/24/outline'
+import { CurrencyDollarIcon } from '@heroicons/react/24/outline'
 
 const navItems = [
-  { to: '/admin/dashboard',   icon: HomeIcon,          key: 'dashboard' },
-  { to: '/admin/products',    icon: CubeIcon,          key: 'products' },
-  { to: '/admin/categories',  icon: TagIcon,           label: 'Categories' },
-  { to: '/admin/inquiries',   icon: InboxIcon,         key: 'inquiries' },
+  { to: '/admin/dashboard',   icon: HomeIcon,             key: 'dashboard' },
+  { to: '/admin/products',    icon: CubeIcon,             key: 'products' },
+  { to: '/admin/categories',  icon: TagIcon,              label: 'Categories' },
+  { to: '/admin/price-list',  icon: CurrencyDollarIcon,   label: 'Price List' },
+  { to: '/admin/inquiries',   icon: InboxIcon,            key: 'inquiries' },
   { to: '/admin/analytics',   icon: ChartBarIcon,      key: 'analytics' },
   { to: '/admin/export',      icon: ArrowDownTrayIcon, key: 'export' },
   { to: '/admin/settings',    icon: Cog6ToothIcon,     key: 'settings' },

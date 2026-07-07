@@ -20,6 +20,7 @@ export default function Navbar() {
 
   const navLinks = [
     { to: '/catalog',       label: t('nav.catalog') },
+    { to: '/price-list',    label: 'Price List' },
     { to: '/how-it-works',  label: t('nav.howItWorks') },
     { to: '/about',         label: 'About' },
     { to: '/contact',       label: t('nav.contact') },

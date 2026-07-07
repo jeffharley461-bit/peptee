@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom'
 import { useCart } from '../store/CartContext'
 import { XMarkIcon, TrashIcon, MinusIcon, PlusIcon, ShoppingCartIcon, BeakerIcon } from '@heroicons/react/24/outline'
 
@@ -6,7 +7,7 @@ export default function CartDrawer({ isOpen, onClose, onCheckout }) {
   const shipping = total >= 500 ? 0 : 30
   const grandTotal = total + shipping
 
-  return (
+  return createPortal(
     <>
       {/* Backdrop */}
       <div
@@ -185,6 +186,7 @@ export default function CartDrawer({ isOpen, onClose, onCheckout }) {
           </div>
         )}
       </div>
-    </>
+    </>,
+    document.body
   )
 }

@@ -179,7 +179,9 @@ export default function PriceListPage() {
                         {item.unit || '—'}
                       </td>
                       <td className="px-4 py-3 font-bold text-primary">
-                        ${parseFloat(item.price_usd).toFixed(2)}
+                        {item.price_usd != null
+                          ? `$${parseFloat(item.price_usd).toFixed(2)}`
+                          : <span className="text-gray-400 font-normal text-sm">Contact us</span>}
                       </td>
                       <td className="px-4 py-3">
                         <Badge variant={item.in_stock ? 'success' : 'default'}>

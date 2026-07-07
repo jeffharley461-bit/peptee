@@ -52,7 +52,7 @@ function ItemRow({ item, onEdit, onDelete }) {
       <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{item.category || '—'}</td>
       <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{item.unit || '—'}</td>
       <td className="px-4 py-3 text-sm font-semibold text-primary">
-        ${parseFloat(item.price_usd).toFixed(2)}
+        {item.price_usd != null ? `$${parseFloat(item.price_usd).toFixed(2)}` : <span className="text-gray-400 font-normal">—</span>}
       </td>
       <td className="px-4 py-3">
         <Badge variant={item.in_stock ? 'success' : 'default'}>
@@ -79,20 +79,20 @@ function ItemRow({ item, onEdit, onDelete }) {
   )
 }
 
-function ItemForm({ initial, onSave, onCancel, loading }) {
+function ItemForm({ initial, onSave, onCancel, loading, categoryOptions = [] }) {
   const [form, setForm] = useState({
     name: '', category: '', unit: '', price_usd: '', notes: '', in_stock: true,
     ...initial,
-    price_usd: initial?.price_usd?.toString() ?? '',
+    price_usd: initial?.price_usd != null ? initial.price_usd.toString() : '',
   })
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
-  const valid = form.name.trim() && form.price_usd && !isNaN(parseFloat(form.price_usd))
+  const valid = form.name.trim()
 
   const save = () => {
     if (!valid) return
     onSave({
       ...form,
-      price_usd: parseFloat(form.price_usd),
+      price_usd: form.price_usd.trim() ? parseFloat(form.price_usd) : null,
       category:  form.category.trim()  || null,
       unit:      form.unit.trim()      || null,
       notes:     form.notes.trim()     || null,
@@ -102,15 +102,19 @@ function ItemForm({ initial, onSave, onCancel, loading }) {
   return (
     <tr className="bg-primary/5 dark:bg-primary/10">
       <td colSpan={6} className="px-4 py-3">
+        <datalist id="pl-category-list">
+          {categoryOptions.map(c => <option key={c} value={c} />)}
+        </datalist>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 mb-2">
           <input
             value={form.name}
             onChange={e => set('name', e.target.value)}
-            placeholder="Peptide name *"
+            placeholder="Product name *"
             className="input text-sm col-span-2 lg:col-span-2"
             autoFocus
           />
           <input
+            list="pl-category-list"
             value={form.category}
             onChange={e => set('category', e.target.value)}
             placeholder="Category"
@@ -163,23 +167,24 @@ function ItemForm({ initial, onSave, onCancel, loading }) {
 }
 
 export default function AdminPriceListPage() {
-  const [items,     setItems]     = useState([])
-  const [loading,   setLoading]   = useState(true)
-  const [saving,    setSaving]    = useState(false)
-  const [adding,    setAdding]    = useState(false)
-  const [editing,   setEditing]   = useState(null)
-  const [deleting,  setDeleting]  = useState(null)
-  const [pasteText, setPasteText] = useState('')
-  const [importing, setImporting] = useState(false)
+  const [items,           setItems]           = useState([])
+  const [loading,         setLoading]         = useState(true)
+  const [saving,          setSaving]          = useState(false)
+  const [adding,          setAdding]          = useState(false)
+  const [editing,         setEditing]         = useState(null)
+  const [deleting,        setDeleting]        = useState(null)
+  const [pasteText,       setPasteText]       = useState('')
+  const [importing,       setImporting]       = useState(false)
+  const [categoryOptions, setCategoryOptions] = useState([])
 
   const load = async () => {
     setLoading(true)
-    const { data } = await supabase
-      .from('price_list')
-      .select('*')
-      .order('category', { nullsFirst: false })
-      .order('name')
+    const [{ data }, { data: cats }] = await Promise.all([
+      supabase.from('price_list').select('*').order('category', { nullsFirst: false }).order('name'),
+      supabase.from('price_list').select('category').not('category', 'is', null).order('category'),
+    ])
     setItems(data || [])
+    setCategoryOptions([...new Set((cats || []).map(r => r.category))].filter(Boolean))
     setLoading(false)
   }
 
@@ -318,6 +323,7 @@ export default function AdminPriceListPage() {
                     onSave={handleAdd}
                     onCancel={() => setAdding(false)}
                     loading={saving}
+                    categoryOptions={categoryOptions}
                   />
                 )}
                 {items.length === 0 && !adding ? (
@@ -338,6 +344,7 @@ export default function AdminPriceListPage() {
                         onSave={handleEdit}
                         onCancel={() => setEditing(null)}
                         loading={saving}
+                        categoryOptions={categoryOptions}
                       />
                     ) : deleting?.id === item.id ? (
                       <tr key={item.id} className="bg-red-50 dark:bg-red-900/20">

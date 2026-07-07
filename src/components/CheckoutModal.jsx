@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useCart } from '../store/CartContext'
 import { useSettings } from '../hooks/useSettings'
 import Modal from './ui/Modal'
-import toast from 'react-hot-toast'
 import { BeakerIcon, CheckIcon } from '@heroicons/react/24/outline'
 import { WhatsAppLogo, GmailLogo } from './icons/BrandIcons'
 
@@ -19,11 +18,12 @@ const PAYMENT_METHODS = [
     color: 'text-orange-500',
     border: 'border-orange-300 dark:border-orange-700',
     bg: 'bg-orange-50 dark:bg-orange-900/20',
+    ring: 'ring-2 ring-orange-400',
   },
   {
     id: 'usdt',
-    label: 'USDT (Tether)',
-    symbol: 'USDT',
+    label: 'USDT',
+    symbol: 'Tether',
     icon: (
       <svg viewBox="0 0 32 32" className="h-6 w-6 fill-current">
         <path d="M16 0C7.163 0 0 7.163 0 16s7.163 16 16 16 16-7.163 16-16S24.837 0 16 0zm8 10.4h-4.8V8H12.8v2.4H8l1.6 4h2.4v.4c0 2.163 1.837 4 4 4s4-1.837 4-4v-.4h2.4L24 10.4zm-8 6.4c-1.325 0-2.4-1.075-2.4-2.4v-.4h4.8v.4c0 1.325-1.075 2.4-2.4 2.4zm0 5.6c-2.65 0-4.8-.35-4.8-.8s2.15-.8 4.8-.8 4.8.35 4.8.8-.15.8-4.8.8z"/>
@@ -32,6 +32,7 @@ const PAYMENT_METHODS = [
     color: 'text-emerald-600',
     border: 'border-emerald-300 dark:border-emerald-700',
     bg: 'bg-emerald-50 dark:bg-emerald-900/20',
+    ring: 'ring-2 ring-emerald-400',
   },
   {
     id: 'eth',
@@ -45,6 +46,7 @@ const PAYMENT_METHODS = [
     color: 'text-purple-600',
     border: 'border-purple-300 dark:border-purple-700',
     bg: 'bg-purple-50 dark:bg-purple-900/20',
+    ring: 'ring-2 ring-purple-400',
   },
   {
     id: 'cashapp',
@@ -58,6 +60,7 @@ const PAYMENT_METHODS = [
     color: 'text-green-600',
     border: 'border-green-300 dark:border-green-700',
     bg: 'bg-green-50 dark:bg-green-900/20',
+    ring: 'ring-2 ring-green-400',
   },
 ]
 
@@ -66,55 +69,52 @@ export default function CheckoutModal({ isOpen, onClose }) {
   const { settings } = useSettings()
   const [step, setStep] = useState(1)
   const [paymentMethod, setPaymentMethod] = useState(null)
-  const [contactMethod, setContactMethod] = useState('whatsapp')
-  const [contactValue, setContactValue] = useState('')
   const [sent, setSent] = useState(false)
 
   const pm = PAYMENT_METHODS.find(p => p.id === paymentMethod)
 
   const handleClose = () => {
     onClose()
-    setTimeout(() => { setStep(1); setPaymentMethod(null); setContactValue(''); setSent(false) }, 300)
+    setTimeout(() => { setStep(1); setPaymentMethod(null); setSent(false) }, 300)
   }
 
   const buildMessage = () => {
     const lines = [
-      `🛒 *New Order Request — PeptideForge*`,
+      `🛒 *New Order — PeptideForge*`,
       ``,
-      `📦 *Items Ordered (${count} item${count !== 1 ? 's' : ''}):*`,
-      ...items.map(({ product, qty }) =>
-        `   • ${product.name} × ${qty}${product.price_usd ? ` — $${(parseFloat(product.price_usd) * qty).toFixed(2)}` : ''}`
-      ),
+      `📦 *Items (${count}):*`,
+      ...items.map(({ product, qty }) => {
+        const lineTotal = product.price_usd ? ` — $${(parseFloat(product.price_usd) * qty).toFixed(2)}` : ''
+        const unit = product.unit ? ` (${product.unit})` : ''
+        return `   • ${product.name}${unit} × ${qty}${lineTotal}`
+      }),
       ``,
       `💰 *Order Total: $${total.toFixed(2)} USD*`,
       ``,
-      `💳 *Requested Payment Method:* ${pm?.label} (${pm?.symbol})`,
-      `   → Please send me your ${pm?.symbol} wallet address to complete payment.`,
+      `💳 *Payment: ${pm?.label} (${pm?.symbol})*`,
+      `   Please send the ${pm?.symbol} wallet address to complete payment.`,
       ``,
-      `📬 *My Contact Info:*`,
-      contactMethod === 'whatsapp'
-        ? `   WhatsApp: ${contactValue}`
-        : `   Email: ${contactValue}`,
-      ``,
-      `⏰ *Submitted:* ${new Date().toLocaleString()}`,
-      `🌐 *Source:* PeptideForge Platform`,
+      `⏰ ${new Date().toLocaleString()}`,
+      `🌐 PeptideForge`,
     ]
     return lines.join('\n')
   }
 
-  const handleSend = () => {
-    if (!contactValue.trim()) { toast.error('Please enter your contact info'); return }
+  const handleSend = (method) => {
     const message = buildMessage()
 
-    if (contactMethod === 'whatsapp') {
-      const sellerPhone = (settings?.whatsapp_number || '').replace(/\D/g, '')
-      if (!sellerPhone) { toast.error('Seller WhatsApp not configured yet'); return }
-      window.open(`https://wa.me/${sellerPhone}?text=${encodeURIComponent(message)}`, '_blank')
+    if (method === 'whatsapp') {
+      const phone = (settings?.whatsapp_number || '19128086267').replace(/\D/g, '')
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank')
     } else {
-      const sellerEmail = settings?.company_email || 'jeffharley461@gmail.com'
+      const email = settings?.company_email || 'jeffharley461@gmail.com'
       const subject = `New Order (${count} item${count !== 1 ? 's' : ''}) — PeptideForge`
-      const body = message.replace(/\*/g, '').replace(/[🛒📦💰💳📬⏰🌐]/gu, '').replace(/^\s+/gm, '')
-      window.location.href = `mailto:${sellerEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+      const body = message
+        .replace(/\*/g, '')
+        .replace(/[🛒📦💰💳⏰🌐]/gu, '')
+        .replace(/^\s+/gm, '')
+        .trim()
+      window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     }
 
     clearCart()
@@ -123,17 +123,22 @@ export default function CheckoutModal({ isOpen, onClose }) {
 
   if (sent) {
     return (
-      <Modal isOpen={isOpen} onClose={handleClose} title="Order Sent!" size="sm">
-        <div className="text-center py-4">
-          <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckIcon className="h-8 w-8 text-green-500" />
+      <Modal isOpen={isOpen} onClose={handleClose} title="" size="sm">
+        <div className="text-center py-6">
+          <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-5">
+            <CheckIcon className="h-10 w-10 text-green-500" />
           </div>
-          <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Order request sent!</h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
-            The seller will reply with the {pm?.symbol} wallet address. Complete payment and share the transaction ID to confirm your order.
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Order Sent!</h3>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-1 max-w-xs mx-auto">
+            Your order has been sent to the seller via {pm?.label}.
+          </p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-6 max-w-xs mx-auto">
+            They will reply with the{' '}
+            <span className="font-semibold text-gray-700 dark:text-gray-200">{pm?.symbol}</span>{' '}
+            wallet address to complete your payment.
           </p>
           <button onClick={handleClose} className="btn-primary w-full py-3 rounded-xl font-semibold">
-            Back to Shop
+            Continue Shopping
           </button>
         </div>
       </Modal>
@@ -142,160 +147,167 @@ export default function CheckoutModal({ isOpen, onClose }) {
 
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title="Checkout" size="md">
-      {/* Step indicator */}
-      <div className="flex items-center gap-2 mb-6">
-        {['Order', 'Payment', 'Contact'].map((label, i) => (
-          <div key={label} className="flex items-center gap-2 flex-1">
-            <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${step > i + 1 ? 'bg-green-500 text-white' : step === i + 1 ? 'bg-primary text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-400'}`}>
-              {step > i + 1 ? <CheckIcon className="h-4 w-4" /> : i + 1}
+      {/* 2-step indicator */}
+      <div className="flex items-center mb-6">
+        {['Review Order', 'Payment'].map((label, i) => (
+          <div key={label} className="flex items-center flex-1 last:flex-none">
+            <div className="flex items-center gap-2 shrink-0">
+              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
+                step > i + 1
+                  ? 'bg-green-500 text-white'
+                  : step === i + 1
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-400'
+              }`}>
+                {step > i + 1 ? <CheckIcon className="h-4 w-4" /> : i + 1}
+              </div>
+              <span className={`text-xs font-medium whitespace-nowrap ${step === i + 1 ? 'text-primary' : 'text-gray-400'}`}>
+                {label}
+              </span>
             </div>
-            <span className={`text-xs font-medium ${step === i + 1 ? 'text-primary' : 'text-gray-400'}`}>{label}</span>
-            {i < 2 && <div className={`flex-1 h-px ${step > i + 1 ? 'bg-green-400' : 'bg-gray-200 dark:bg-gray-700'}`} />}
+            {i < 1 && (
+              <div className={`flex-1 h-px mx-3 ${step > i + 1 ? 'bg-green-400' : 'bg-gray-200 dark:bg-gray-700'}`} />
+            )}
           </div>
         ))}
       </div>
 
-      {/* Step 1: Order Review */}
+      {/* ── Step 1: Order Review ── */}
       {step === 1 && (
         <div>
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Order Summary</h3>
-          <div className="space-y-2 mb-4 max-h-56 overflow-y-auto pr-1">
+          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+            Your Order ({count} item{count !== 1 ? 's' : ''})
+          </h3>
+
+          <div className="space-y-2 mb-4 max-h-60 overflow-y-auto pr-1">
             {items.map(({ product, qty }) => (
-              <div key={product.id} className="flex items-center gap-3 p-2.5 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                <div className="w-9 h-9 rounded-md bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
+              <div key={product.id} className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
                   {product.image_url
                     ? <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
-                    : <BeakerIcon className="h-4 w-4 text-primary/40" />
+                    : <BeakerIcon className="h-5 w-5 text-primary/40" />
                   }
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{product.name}</p>
-                  <p className="text-xs text-gray-400">Qty: {qty}</p>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{product.name}</p>
+                  <p className="text-xs text-gray-400">
+                    {product.unit ? `${product.unit} · ` : ''}Qty: {qty}
+                  </p>
                 </div>
-                <p className="text-sm font-semibold text-primary flex-shrink-0">
-                  ${(parseFloat(product.price_usd || 0) * qty).toFixed(2)}
+                <p className="text-sm font-bold text-primary flex-shrink-0">
+                  {product.price_usd
+                    ? `$${(parseFloat(product.price_usd) * qty).toFixed(2)}`
+                    : <span className="text-gray-400 text-xs font-normal">Quote</span>
+                  }
                 </p>
               </div>
             ))}
           </div>
-          <div className="flex items-center justify-between py-3 border-t border-gray-200 dark:border-gray-700 mb-4">
-            <span className="font-semibold text-gray-900 dark:text-white">Total</span>
-            <span className="text-xl font-bold text-primary">${total.toFixed(2)} <span className="text-xs font-normal text-gray-400">USD</span></span>
+
+          {/* Totals block */}
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 mb-5 space-y-2.5">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-gray-500 dark:text-gray-400">Subtotal</span>
+              <span className="font-medium text-gray-700 dark:text-gray-200">${total.toFixed(2)}</span>
+            </div>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-gray-500 dark:text-gray-400">Shipping</span>
+              <span className={total >= 500 ? 'font-semibold text-green-500' : 'font-medium text-gray-700 dark:text-gray-200'}>
+                {total >= 500 ? 'FREE' : '$30.00'}
+              </span>
+            </div>
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-2.5 flex items-center justify-between">
+              <span className="font-bold text-gray-900 dark:text-white">Total</span>
+              <span className="text-xl font-bold text-primary">
+                ${(total >= 500 ? total : total + 30).toFixed(2)}
+                <span className="text-xs font-normal text-gray-400 ml-1">USD</span>
+              </span>
+            </div>
           </div>
-          <button onClick={() => setStep(2)} className="w-full btn-primary py-3 rounded-xl font-semibold">
+
+          <button
+            onClick={() => setStep(2)}
+            className="w-full btn-primary py-3.5 rounded-xl font-semibold text-sm"
+          >
             Choose Payment Method →
           </button>
         </div>
       )}
 
-      {/* Step 2: Payment Method */}
+      {/* ── Step 2: Payment + Send ── */}
       {step === 2 && (
         <div>
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Select Payment Method</h3>
+          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">How would you like to pay?</h3>
           <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
-            After you send the order, the seller will reply with the wallet address for your chosen method.
+            After placing your order, the seller will send you the wallet address.
           </p>
+
           <div className="grid grid-cols-2 gap-3 mb-5">
             {PAYMENT_METHODS.map(method => (
               <button
                 key={method.id}
                 onClick={() => setPaymentMethod(method.id)}
-                className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
+                className={`relative flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
                   paymentMethod === method.id
-                    ? `${method.border} ${method.bg}`
-                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                    ? `${method.border} ${method.bg} ${method.ring}`
+                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800'
                 }`}
               >
-                <span className={method.color}>{method.icon}</span>
-                <span className="text-xs font-semibold text-gray-800 dark:text-gray-200">{method.label}</span>
-                <span className="text-xs text-gray-400">{method.symbol}</span>
                 {paymentMethod === method.id && (
-                  <span className={`w-5 h-5 rounded-full flex items-center justify-center ${method.bg} ${method.color} border ${method.border}`}>
+                  <span className={`absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center ${method.bg} ${method.color} border ${method.border}`}>
                     <CheckIcon className="h-3 w-3" />
                   </span>
                 )}
+                <span className={method.color}>{method.icon}</span>
+                <span className="text-xs font-bold text-gray-800 dark:text-gray-100">{method.label}</span>
+                <span className="text-xs text-gray-400">{method.symbol}</span>
               </button>
             ))}
           </div>
-          <div className="flex gap-3">
-            <button onClick={() => setStep(1)} className="flex-1 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-              ← Back
-            </button>
-            <button
-              onClick={() => paymentMethod && setStep(3)}
-              disabled={!paymentMethod}
-              className="flex-1 btn-primary py-3 rounded-xl font-semibold disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              Continue →
-            </button>
-          </div>
-        </div>
-      )}
 
-      {/* Step 3: Contact & Send */}
-      {step === 3 && (
-        <div>
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Your Contact Info</h3>
-          <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">
-            So the seller can send you the <span className="font-medium text-gray-600 dark:text-gray-300">{pm?.symbol}</span> wallet address to complete payment.
+          {/* Mini order recap */}
+          <div className="flex items-center justify-between text-xs text-gray-400 dark:text-gray-500 px-1 mb-4">
+            <span>{count} item{count !== 1 ? 's' : ''}</span>
+            <span className="font-semibold text-gray-600 dark:text-gray-300">
+              Total ${(total >= 500 ? total : total + 30).toFixed(2)} USD
+            </span>
+          </div>
+
+          <div className="border-t border-gray-200 dark:border-gray-700 mb-4" />
+
+          <p className="text-xs text-center mb-3 text-gray-500 dark:text-gray-400">
+            {paymentMethod
+              ? 'Contact the seller to place your order:'
+              : 'Select a payment method above to continue'
+            }
           </p>
 
-          {/* Payment method recap */}
-          <div className={`flex items-center gap-3 p-3 rounded-xl border ${pm?.border} ${pm?.bg} mb-5`}>
-            <span className={pm?.color}>{pm?.icon}</span>
-            <div>
-              <p className="text-xs font-semibold text-gray-700 dark:text-gray-300">{pm?.label} ({pm?.symbol})</p>
-              <p className="text-xs text-gray-400">Seller will send wallet address after receiving your order</p>
-            </div>
-          </div>
-
-          {/* Contact method toggle */}
-          <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1 mb-4">
+          {/* Send to seller buttons */}
+          <div className="grid grid-cols-2 gap-3">
             <button
-              onClick={() => setContactMethod('whatsapp')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-colors ${contactMethod === 'whatsapp' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500'}`}
+              onClick={() => handleSend('whatsapp')}
+              disabled={!paymentMethod}
+              className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
-              <WhatsAppLogo className="h-4 w-4 flex-shrink-0" />
+              <WhatsAppLogo className="h-5 w-5 flex-shrink-0" />
               WhatsApp
             </button>
             <button
-              onClick={() => setContactMethod('email')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-colors ${contactMethod === 'email' ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm' : 'text-gray-500'}`}
+              onClick={() => handleSend('email')}
+              disabled={!paymentMethod}
+              className="flex items-center justify-center gap-2 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-700 text-white font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
             >
-              <GmailLogo className="h-4 w-4 flex-shrink-0" />
+              <GmailLogo className="h-5 w-5 flex-shrink-0" />
               Email
             </button>
           </div>
 
-          {/* Input */}
-          <input
-            type={contactMethod === 'email' ? 'email' : 'tel'}
-            value={contactValue}
-            onChange={e => setContactValue(e.target.value)}
-            placeholder={contactMethod === 'whatsapp' ? 'Your WhatsApp number (+1 555 0100)' : 'Your email address'}
-            className="input mb-4"
-          />
-
-          {/* Order summary mini */}
-          <div className="text-xs text-gray-400 dark:text-gray-500 mb-4 text-center">
-            Sending order for <span className="font-semibold text-gray-600 dark:text-gray-300">{count} item{count !== 1 ? 's' : ''}</span> · Total <span className="font-semibold text-primary">${total.toFixed(2)}</span>
-          </div>
-
-          <div className="flex gap-3">
-            <button onClick={() => setStep(2)} className="flex-1 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-              ← Back
-            </button>
-            <button
-              onClick={handleSend}
-              disabled={!contactValue.trim()}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed ${contactMethod === 'whatsapp' ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-600 hover:bg-blue-700'}`}
-            >
-              {contactMethod === 'whatsapp'
-                ? <><WhatsAppLogo className="h-4 w-4 flex-shrink-0" /> Send via WhatsApp</>
-                : <><GmailLogo className="h-4 w-4 flex-shrink-0" /> Send via Email</>
-              }
-            </button>
-          </div>
+          <button
+            onClick={() => setStep(1)}
+            className="w-full mt-3 py-2.5 text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+          >
+            ← Back to Order
+          </button>
         </div>
       )}
     </Modal>

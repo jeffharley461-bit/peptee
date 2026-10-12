@@ -57,7 +57,7 @@ const PAYMENT_METHODS = [
 export default function HomePage() {
   const { t } = useTranslation()
   const { products } = useProducts({ sortBy: 'created_at', sortDir: 'desc' })
-  const featuredProducts = products.slice(0, 3)
+  const featuredProducts = products.slice(0, 4)
   const [quickView, setQuickView] = useState(null)
 
   return (
@@ -177,7 +177,7 @@ export default function HomePage() {
                 View all <ArrowRightIcon className="h-4 w-4" />
               </Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {featuredProducts.map(product => (
                 <ProductCard
                   key={product.id}

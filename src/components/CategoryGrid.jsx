@@ -14,14 +14,14 @@ const CATEGORIES = [
   },
   {
     name: 'Research Bundles',
-    query: 'Bundle',
+    query: 'Research Bundles',
     desc: 'Curated multi-peptide kits for lab efficiency',
     icon: Squares2X2Icon,
     color: 'from-accent-500 to-purple-400',
   },
   {
     name: 'Laboratory Accessories',
-    query: 'Accessories',
+    query: 'Laboratory Accessories',
     desc: 'Reconstitution, storage & handling essentials',
     icon: WrenchScrewdriverIcon,
     color: 'from-emerald-500 to-teal-400',

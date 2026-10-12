@@ -9,7 +9,7 @@ import toast from 'react-hot-toast'
 const EMPTY = {
   name: '', category_id: '', description: '', applications: '',
   purity_percent: '', molecular_weight: '', molecular_weight_unit: 'Da',
-  amino_acid_sequence: '', price_usd: '', image_url: '',
+  amino_acid_sequence: '', price_usd: '', image_url: '', stock_status: 'in_stock',
 }
 
 export default function ProductForm({ product = null, onSuccess, onCancel }) {
@@ -82,6 +82,16 @@ export default function ProductForm({ product = null, onSuccess, onCancel }) {
         <div>
           <label className="label">{t('admin.products.form.purity')}</label>
           <input name="purity_percent" type="number" min="0" max="100" step="0.01" value={form.purity_percent} onChange={handleChange} className="input" />
+        </div>
+
+        <div>
+          <label className="label">{t('admin.products.form.stockStatus')}</label>
+          <select name="stock_status" value={form.stock_status} onChange={handleChange} className="input">
+            <option value="in_stock">In Stock</option>
+            <option value="low_stock">Low Stock</option>
+            <option value="out_of_stock">Out of Stock</option>
+            <option value="pre_order">Pre-Order</option>
+          </select>
         </div>
 
         <div className="flex gap-2">

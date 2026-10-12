@@ -5,18 +5,19 @@ import { useAuth } from '../../hooks/useAuth'
 import {
   HomeIcon, CubeIcon, TagIcon, InboxIcon, ChartBarIcon,
   ArrowDownTrayIcon, Cog6ToothIcon, ArrowLeftOnRectangleIcon,
-  BeakerIcon, Bars3Icon, XMarkIcon, CurrencyDollarIcon
+  BeakerIcon, Bars3Icon, XMarkIcon, CurrencyDollarIcon, DocumentTextIcon,
 } from '@heroicons/react/24/outline'
 
 const navItems = [
-  { to: '/admin/dashboard',   icon: HomeIcon,             label: 'Dashboard' },
-  { to: '/admin/products',    icon: CubeIcon,             label: 'Products' },
-  { to: '/admin/categories',  icon: TagIcon,              label: 'Categories' },
-  { to: '/admin/price-list',  icon: CurrencyDollarIcon,   label: 'Price List' },
-  { to: '/admin/inquiries',   icon: InboxIcon,            label: 'Inquiries' },
-  { to: '/admin/analytics',   icon: ChartBarIcon,      label: 'Analytics' },
-  { to: '/admin/export',      icon: ArrowDownTrayIcon, label: 'Export' },
-  { to: '/admin/settings',    icon: Cog6ToothIcon,     label: 'Settings' },
+  { to: '/admin/dashboard',   icon: HomeIcon,            label: 'Dashboard' },
+  { to: '/admin/products',    icon: CubeIcon,            label: 'Products' },
+  { to: '/admin/categories',  icon: TagIcon,             label: 'Categories' },
+  { to: '/admin/price-list',  icon: CurrencyDollarIcon,  label: 'Price List' },
+  { to: '/admin/inquiries',   icon: InboxIcon,           label: 'Inquiries' },
+  { to: '/admin/test-reports', icon: DocumentTextIcon,   label: 'Test Reports' },
+  { to: '/admin/analytics',   icon: ChartBarIcon,        label: 'Analytics' },
+  { to: '/admin/export',      icon: ArrowDownTrayIcon,   label: 'Export' },
+  { to: '/admin/settings',    icon: Cog6ToothIcon,       label: 'Settings' },
 ]
 
 export default function Sidebar() {

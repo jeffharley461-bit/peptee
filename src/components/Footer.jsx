@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { BeakerIcon } from '@heroicons/react/24/outline'
 import { WhatsAppLogo, GmailLogo } from './icons/BrandIcons'
+import NewsletterSignup from './NewsletterSignup'
 
 export default function Footer() {
   const { t } = useTranslation()
@@ -10,27 +11,28 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 dark:bg-gray-950 text-gray-300 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Brand */}
-          <div className="sm:col-span-2 md:col-span-1">
+          <div className="sm:col-span-2 lg:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <BeakerIcon className="h-6 w-6 text-primary" />
               <span className="text-white font-bold text-lg">PeptideForge</span>
             </Link>
-            <p className="text-sm text-gray-400 leading-relaxed">
-              Custom peptide synthesis & R&D consulting for the future.
+            <p className="text-sm text-gray-400 leading-relaxed mb-4">
+              Research-grade peptides supplied strictly for laboratory, analytical, and research purposes.
             </p>
+            <NewsletterSignup />
           </div>
 
-          {/* Navigation */}
+          {/* Shop */}
           <div>
-            <h4 className="text-white font-semibold mb-3">Navigation</h4>
+            <h4 className="text-white font-semibold mb-3">Shop</h4>
             <ul className="space-y-2 text-sm">
               <li><Link to="/catalog"              className="hover:text-white transition-colors">{t('nav.catalog')}</Link></li>
-              <li><Link to="/how-it-works"          className="hover:text-white transition-colors">{t('nav.howItWorks')}</Link></li>
-              <li><Link to="/contact"              className="hover:text-white transition-colors">{t('nav.contact')}</Link></li>
+              <li><Link to="/reviews"              className="hover:text-white transition-colors">Reviews</Link></li>
+              <li><Link to="/test-reports"         className="hover:text-white transition-colors">Test Reports / COA</Link></li>
+              <li><Link to="/price-list"           className="hover:text-white transition-colors">Price List</Link></li>
               <li><Link to="/payment-instructions" className="hover:text-white transition-colors">Payment</Link></li>
-              <li><Link to="/price-list"          className="hover:text-white transition-colors">Price List</Link></li>
             </ul>
           </div>
 
@@ -38,9 +40,12 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-3">Company</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link to="/about"      className="hover:text-white transition-colors">About Us</Link></li>
-              <li><Link to="/faq"        className="hover:text-white transition-colors">FAQ</Link></li>
-              <li><Link to="/disclaimer" className="hover:text-white transition-colors">Disclaimer</Link></li>
+              <li><Link to="/about"        className="hover:text-white transition-colors">About Us</Link></li>
+              <li><Link to="/faq"          className="hover:text-white transition-colors">FAQs</Link></li>
+              <li><Link to="/shipping-policy" className="hover:text-white transition-colors">Shipping Policy</Link></li>
+              <li><Link to="/terms"        className="hover:text-white transition-colors">Terms of Service</Link></li>
+              <li><Link to="/privacy"      className="hover:text-white transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/disclaimer"   className="hover:text-white transition-colors">Disclaimer</Link></li>
             </ul>
           </div>
 
@@ -69,15 +74,26 @@ export default function Footer() {
                 </a>
               </li>
             </ul>
+            <p className="text-xs text-gray-500 mt-4">
+              Responding within 24 hours · Mon–Fri
+            </p>
           </div>
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-gray-500">
           <p>© {year} PeptideForge. All rights reserved.</p>
-          <Link to="/admin/login" className="hover:text-gray-300 transition-colors text-xs">
-            Admin
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link to="/terms" className="hover:text-gray-300 transition-colors text-xs">Terms</Link>
+            <Link to="/privacy" className="hover:text-gray-300 transition-colors text-xs">Privacy</Link>
+            <Link to="/shipping-policy" className="hover:text-gray-300 transition-colors text-xs">Shipping</Link>
+            <Link to="/admin/login" className="hover:text-gray-300 transition-colors text-xs">Admin</Link>
+          </div>
         </div>
+
+        <p className="mt-6 text-center text-[11px] text-gray-600 leading-relaxed max-w-3xl mx-auto">
+          All products are intended strictly for laboratory, analytical, and research purposes only and are
+          not intended for human or veterinary consumption or therapeutic application.
+        </p>
       </div>
     </footer>
   )

@@ -62,7 +62,30 @@
     "requestQuote": "Request Quote",
     "purity": "Purity",
     "mw": "MW",
-    "priceFrom": "From"
+    "priceFrom": "From",
+    "addToCart": "Add to Cart",
+    "quickView": "Quick View"
+  },
+  "reviews": {
+    "badge": "Customer Reviews",
+    "title": "What Researchers Say",
+    "subtitle": "Trusted by scientists and biotech companies worldwide",
+    "ctaTitle": "Share Your Experience",
+    "ctaSubtitle": "Worked with us on a research project? We'd love to hear about it.",
+    "ctaButton": "Submit a Review"
+  },
+  "testReports": {
+    "badge": "Certificates of Analysis",
+    "title": "Test Reports & COA",
+    "subtitle": "Download third-party analysed Certificates of Analysis (COA) for our research-grade products. Each batch is verified for purity and quality.",
+    "search": "Search by product or batch...",
+    "empty": "No test reports are available yet.",
+    "purity": "Purity",
+    "method": "Method",
+    "testedOn": "Tested",
+    "download": "Download Report",
+    "noDocument": "Document pending",
+    "disclaimer": "Extracts are provided for informational purposes. Verification of results is the responsibility of the end user in compliance with applicable regulations."
   },
   "peptide": {
     "details": "Product Details",
@@ -229,7 +252,37 @@
         "price": "Price in USD",
         "image": "Product Image",
         "dragDrop": "Drag & drop image here, or click to select",
+        "stockStatus": "Stock Status",
         "save": "Save Product",
+        "cancel": "Cancel"
+      }
+    },
+    "testReports": {
+      "title": "Manage Test Reports",
+      "subtitle": "Upload and manage Certificates of Analysis (COA) for your products",
+      "add": "Add Report",
+      "search": "Search reports...",
+      "product": "Product",
+      "batch": "Batch",
+      "purity": "Purity",
+      "tested": "Tested",
+      "status": "Status",
+      "delete": "Delete",
+      "confirmDelete": "Are you sure you want to delete this test report?",
+      "deleteSuccess": "Test report deleted successfully",
+      "saveSuccess": "Test report saved successfully",
+      "form": {
+        "title": "Add New Test Report",
+        "editTitle": "Edit Test Report",
+        "productName": "Product Name",
+        "product": "Link to Product",
+        "batchNumber": "Batch Number",
+        "purity": "Purity %",
+        "method": "Test Method",
+        "testedOn": "Test Date",
+        "reportUrl": "Report PDF",
+        "published": "Publish to website",
+        "save": "Save Report",
         "cancel": "Cancel"
       }
     },
@@ -300,6 +353,13 @@
       "save": "Save Changes",
       "saving": "Saving...",
       "saveSuccess": "Settings saved successfully"
+    }
+  },
+  "footer": {
+    "newsletter": {
+      "placeholder": "Enter your email...",
+      "subscribe": "Subscribe",
+      "success": "Subscribed! You'll receive product and batch updates."
     }
   },
   "common": {

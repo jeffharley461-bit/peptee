@@ -1,27 +1,43 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useProducts } from '../hooks/useProducts'
 import { useCategories } from '../hooks/useCategories'
-import { useCart } from '../store/CartContext'
-import Card from '../components/ui/Card'
+import ProductCard from '../components/ProductCard'
+import QuickViewModal from '../components/QuickViewModal'
 import Spinner from '../components/ui/Spinner'
-import toast from 'react-hot-toast'
-import { BeakerIcon, MagnifyingGlassIcon, XMarkIcon, ShoppingCartIcon } from '@heroicons/react/24/outline'
+import { BeakerIcon, MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 export default function CatalogPage() {
   const { t } = useTranslation()
-  const { addToCart } = useCart()
-  const [search,    setSearch]    = useState('')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [search,    setSearch]    = useState(searchParams.get('q') || '')
   const [category,  setCategory]  = useState('')
   const [sortBy,    setSortBy]    = useState('created_at')
   const [sortDir,   setSortDir]   = useState('desc')
+  const [quickView, setQuickView] = useState(null)
 
   const { products, loading } = useProducts({ search, category, sortBy, sortDir })
   const { categories }        = useCategories()
 
+  // Sync category from URL ?category=<name>
+  useEffect(() => {
+    const name = searchParams.get('category')
+    if (name) {
+      const match = categories.find(c => c.name.toLowerCase() === name.toLowerCase())
+      if (match) {
+        setCategory(match.id)
+        const next = new URLSearchParams(searchParams)
+        next.delete('category')
+        setSearchParams(next, { replace: true })
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categories, searchParams])
+
   const clearFilters = () => {
-    setSearch(''); setCategory(''); setSortBy('created_at'); setSortDir('desc')
+    setSearch(''); setCategory(''); setSortBy('created_at'); setSortDir('desc');
+    setSearchParams({}, { replace: true })
   }
 
   const hasFilters = search || category || sortBy !== 'created_at'
@@ -42,12 +58,15 @@ export default function CatalogPage() {
           <input
             type="text"
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={e => {
+              setSearch(e.target.value)
+              setSearchParams({ q: e.target.value }, { replace: true })
+            }}
             placeholder={t('catalog.search')}
             className="input pl-10"
           />
           {search && (
-            <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+            <button onClick={() => { setSearch(''); setSearchParams({}, { replace: true }) }} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
               <XMarkIcon className="h-4 w-4" />
             </button>
           )}
@@ -105,42 +124,21 @@ export default function CatalogPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map(product => (
-            <Card key={product.id} hover padding={false} className="overflow-hidden flex flex-col">
-              {/* Image — clicking navigates to detail */}
-              <Link to={`/peptide/${product.id}`} className="block">
-                <div className="aspect-video bg-gradient-to-br from-primary-50 to-accent-50 dark:from-gray-700 dark:to-gray-600 flex items-center justify-center flex-shrink-0">
-                  {product.image_url ? (
-                    <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <BeakerIcon className="h-12 w-12 text-primary/20" />
-                  )}
-                </div>
-              </Link>
-              {/* Content */}
-              <div className="p-4 flex flex-col flex-1">
-                <span className="text-xs text-primary font-medium mb-1">{product.categories?.name || 'Uncategorized'}</span>
-                <Link to={`/peptide/${product.id}`} className="flex-1">
-                  <h3 className="font-semibold text-gray-900 dark:text-white text-sm leading-snug mb-2 hover:text-primary transition-colors">{product.name}</h3>
-                </Link>
-                <div className="flex items-center justify-between mb-3">
-                  <div className="text-xs text-gray-500 dark:text-gray-400">
-                    <span>{t('catalog.purity')}: </span>
-                    <span className="font-medium text-gray-700 dark:text-gray-300">{product.purity_percent}%</span>
-                  </div>
-                  <span className="font-bold text-primary text-sm">${product.price_usd}</span>
-                </div>
-                <button
-                  onClick={() => { addToCart(product); toast.success(`${product.name} added to cart`) }}
-                  className="w-full flex items-center justify-center gap-2 py-2 px-3 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-lg text-xs font-semibold transition-all"
-                >
-                  <ShoppingCartIcon className="h-4 w-4" />
-                  Add to Cart
-                </button>
-              </div>
-            </Card>
+            <ProductCard
+              key={product.id}
+              product={product}
+              onQuickView={setQuickView}
+            />
           ))}
         </div>
       )}
+
+      {/* Quick View */}
+      <QuickViewModal
+        product={quickView}
+        isOpen={!!quickView}
+        onClose={() => setQuickView(null)}
+      />
     </div>
   )
 }

@@ -50,6 +50,26 @@
   .label {
     @apply block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1;
   }
+
+  .legal h2 {
+    @apply text-xl font-semibold text-gray-900 dark:text-white mt-8 mb-3;
+  }
+
+  .legal h3 {
+    @apply text-base font-semibold text-gray-900 dark:text-white mt-6 mb-2;
+  }
+
+  .legal p {
+    @apply text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-4;
+  }
+
+  .legal ul {
+    @apply list-disc pl-5 space-y-2 mb-4 text-sm text-gray-600 dark:text-gray-400;
+  }
+
+  .legal a {
+    @apply text-primary hover:underline;
+  }
 }
 
 @keyframes marquee {

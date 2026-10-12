@@ -15,6 +15,11 @@ const PaymentInstructionsPage = lazy(() => import('./pages/PaymentInstructionsPa
 const FAQPage         = lazy(() => import('./pages/FAQPage'))
 const AboutPage       = lazy(() => import('./pages/AboutPage'))
 const DisclaimerPage  = lazy(() => import('./pages/DisclaimerPage'))
+const ReviewsPage     = lazy(() => import('./pages/ReviewsPage'))
+const TestReportsPage = lazy(() => import('./pages/TestReportsPage'))
+const TermsPage       = lazy(() => import('./pages/TermsPage'))
+const PrivacyPage     = lazy(() => import('./pages/PrivacyPage'))
+const ShippingPolicyPage = lazy(() => import('./pages/ShippingPolicyPage'))
 
 const PriceListPage      = lazy(() => import('./pages/PriceListPage'))
 const AdminPriceListPage = lazy(() => import('./pages/admin/PriceListPage'))
@@ -27,6 +32,7 @@ const InquiriesPage  = lazy(() => import('./pages/admin/InquiriesPage'))
 const AnalyticsPage  = lazy(() => import('./pages/admin/AnalyticsPage'))
 const ExportPage     = lazy(() => import('./pages/admin/ExportPage'))
 const SettingsPage   = lazy(() => import('./pages/admin/SettingsPage'))
+const AdminTestReportsPage = lazy(() => import('./pages/admin/TestReportsPage'))
 
 function PageLoader() {
   return (
@@ -58,6 +64,11 @@ export default function App() {
             <Route path="/faq"                  element={<FAQPage />} />
             <Route path="/about"                element={<AboutPage />} />
             <Route path="/disclaimer"           element={<DisclaimerPage />} />
+            <Route path="/reviews"              element={<ReviewsPage />} />
+            <Route path="/test-reports"         element={<TestReportsPage />} />
+            <Route path="/terms"                element={<TermsPage />} />
+            <Route path="/privacy"              element={<PrivacyPage />} />
+            <Route path="/shipping-policy"      element={<ShippingPolicyPage />} />
             <Route path="/price-list"           element={<PriceListPage />} />
           </Route>
 
@@ -73,6 +84,7 @@ export default function App() {
               <Route path="/admin/inquiries"  element={<InquiriesPage />} />
               <Route path="/admin/analytics" element={<AnalyticsPage />} />
               <Route path="/admin/export"    element={<ExportPage />} />
+              <Route path="/admin/test-reports" element={<AdminTestReportsPage />} />
               <Route path="/admin/settings"  element={<SettingsPage />} />
             </Route>
           </Route>

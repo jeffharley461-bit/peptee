@@ -28,6 +28,10 @@ import pg from 'pg'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(__dirname, '..')
+const envPath = path.join(ROOT, '.env')
+if (existsSync(envPath)) {
+  try { process.loadEnvFile(envPath) } catch {}
+}
 const MIGRATIONS_DIR = process.env.MIGRATIONS_DIR
   ? path.resolve(ROOT, process.env.MIGRATIONS_DIR)
   : path.join(ROOT, 'supabase', 'migrations')
@@ -78,6 +82,11 @@ async function main() {
   const client = new pg.Client({ connectionString, ssl: { rejectUnauthorized: false } })
   await client.connect().catch(err => {
     console.error(`[migrate] Could not connect to database: ${err.message}`)
+    if (connectionString.includes('db.') && /\.supabase\.co/i.test(connectionString)) {
+      console.error('[migrate] Hint: the direct db.<ref>.supabase.co host is often IPv6-only and may be unreachable.')
+      console.error('[migrate]   Use the IPv4 pooler connection string from:')
+      console.error('[migrate]   Dashboard > Project Settings > Database > "Connection string" > URI (Session mode)')
+    }
     process.exit(1)
   })
 

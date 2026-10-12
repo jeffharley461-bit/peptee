@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-DiK4U9sA.js";var t=e();function n({size:e=`md`,className:n=``}){return(0,t.jsx)(`div`,{className:`animate-spin rounded-full border-2 border-gray-200 dark:border-gray-700 border-t-primary ${{sm:`h-4 w-4`,md:`h-8 w-8`,lg:`h-12 w-12`}[e]} ${n}`})}export{n as t};

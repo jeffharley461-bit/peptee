@@ -13,31 +13,14 @@ import { useProducts } from '../hooks/useProducts'
 import Card from '../components/ui/Card'
 import {
   BeakerIcon, SparklesIcon, TruckIcon, ShieldCheckIcon,
-  ArrowRightIcon, ChatBubbleLeftEllipsisIcon
+  ArrowRightIcon, ChatBubbleLeftEllipsisIcon, DocumentTextIcon,
+  ChevronDownIcon, Squares2X2Icon,
 } from '@heroicons/react/24/outline'
 
-const CASE_STUDIES = [
-  {
-    title: 'Anti-Aging Peptide Development',
-    category: 'Cosmetic Research',
-    summary: 'Developed a novel collagen-stimulating peptide for a leading European skincare brand, achieving 94% purity on first synthesis.',
-    result: '94% purity, 3-week delivery',
-    color: 'from-blue-500 to-cyan-400',
-  },
-  {
-    title: 'Cancer Biomarker Peptides',
-    category: 'Oncology Research',
-    summary: 'Synthesized a panel of 12 diagnostic peptides for early-stage cancer detection research at a US university.',
-    result: '12 peptides, 99%+ purity each',
-    color: 'from-purple-500 to-accent-400',
-  },
-  {
-    title: 'Antimicrobial Peptide Panel',
-    category: 'Pharmaceutical R&D',
-    summary: 'Custom synthesis of 8 AMPs for antibiotic resistance research, all verified by HPLC and mass spectrometry.',
-    result: '8 AMPs, 2-week turnaround',
-    color: 'from-emerald-500 to-green-400',
-  },
+const HERO_STATS = [
+  { value: '99%+', label: 'Verified Purity' },
+  { value: 'COA', label: 'Every Batch' },
+  { value: '48h', label: 'Dispatch' },
 ]
 
 const SERVICES = [
@@ -47,18 +30,56 @@ const SERVICES = [
   { icon: TruckIcon,       key: 'delivery',    color: 'text-orange-500 bg-orange-50 dark:bg-orange-900/20' },
 ]
 
-const PAYMENT_METHODS = [
-  { name: 'Bitcoin',   symbol: 'BTC', logo: '/payment-logos/BTC.svg',    color: '#F7931A' },
-  { name: 'Tether',    symbol: 'USDT',logo: '/payment-logos/USDT.svg',   color: '#26A17B' },
-  { name: 'Ethereum',  symbol: 'ETH', logo: '/payment-logos/ETH.svg',    color: '#627EEA' },
-  { name: 'CashApp',   symbol: '$',   logo: '/payment-logos/CashApp.svg',color: '#00D632' },
+const FAQS = [
+  {
+    q: 'Are your peptides third-party tested?',
+    a: 'Yes. Every batch is analysed by an independent laboratory using HPLC and mass spectrometry. The resulting Certificate of Analysis (COA) is published on our Test Reports page and linked from each product.',
+  },
+  {
+    q: 'How should I store my peptides?',
+    a: 'Lyophilised peptides should be kept refrigerated, dry and protected from light. Once reconstituted, store at 2–8°C and use within the period indicated on the datasheet.',
+  },
+  {
+    q: 'What purity can I expect?',
+    a: 'Our research peptides are supplied at 98% or higher purity, with most batches testing above 99% by HPLC. The exact figure for your batch is shown on its COA.',
+  },
+  {
+    q: 'How are orders shipped?',
+    a: 'Orders are dispatched within 48 hours in discreet, tracked packaging. Tracking details are emailed as soon as your parcel leaves our facility.',
+  },
+  {
+    q: 'Are these products for human use?',
+    a: 'No. All products are supplied strictly for laboratory research purposes only and are not intended for human or veterinary consumption.',
+  },
 ]
+
+function FaqItem({ faq, isOpen, onToggle }) {
+  return (
+    <div className="border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden bg-white dark:bg-gray-800">
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left"
+      >
+        <span className="font-medium text-gray-900 dark:text-white text-sm">{faq.q}</span>
+        <ChevronDownIcon className={`h-5 w-5 text-primary flex-shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+      {isOpen && (
+        <div className="px-5 pb-5 text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+          {faq.a}
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function HomePage() {
   const { t } = useTranslation()
   const { products } = useProducts({ sortBy: 'created_at', sortDir: 'desc' })
+  const { products: bundles } = useProducts({ category: 'Research Bundles' })
   const featuredProducts = products.slice(0, 4)
+  const bundleProducts = bundles.slice(0, 3)
   const [quickView, setQuickView] = useState(null)
+  const [openFaq, setOpenFaq] = useState(0)
 
   return (
     <div>
@@ -66,61 +87,80 @@ export default function HomePage() {
       <MarqueeBanner />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900 py-24 px-4">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-64 h-64 bg-primary rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-20 w-64 h-64 bg-accent rounded-full blur-3xl" />
-        </div>
-        <div className="relative max-w-4xl mx-auto text-center">
+      <section className="relative overflow-hidden bg-gradient-to-b from-emerald-50 via-white to-white dark:from-gray-900 dark:via-gray-950 dark:to-gray-950 py-20 px-4">
+        <div className="absolute -top-32 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute top-40 -left-24 w-80 h-80 bg-accent/10 rounded-full blur-3xl" />
+        <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-14 items-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="inline-block px-4 py-1.5 bg-primary/20 text-primary-300 text-sm font-medium rounded-full mb-6 border border-primary/30">
-              🧬 Research-Grade Peptides
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 text-primary text-sm font-medium rounded-full mb-6 border border-primary/20">
+              <ShieldCheckIcon className="h-4 w-4" />
+              Third-Party Tested Peptides
             </span>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white leading-tight mb-6">
               {t('home.hero.title')}
             </h1>
-            <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-lg text-gray-600 dark:text-gray-400 mb-9 max-w-xl leading-relaxed">
               {t('home.hero.subtitle')}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 to="/catalog"
-                className="inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-xl font-semibold hover:bg-primary-600 transition-colors shadow-lg shadow-primary/25"
+                className="inline-flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-xl font-semibold hover:bg-primary-600 transition-colors shadow-lg shadow-primary/25"
               >
                 {t('home.hero.ctaCatalog')}
                 <ArrowRightIcon className="h-5 w-5" />
               </Link>
               <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 bg-white/10 text-white border border-white/20 px-8 py-4 rounded-xl font-semibold hover:bg-white/20 transition-colors"
+                to="/test-reports"
+                className="inline-flex items-center justify-center gap-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 px-8 py-4 rounded-xl font-semibold hover:border-primary hover:text-primary transition-colors"
               >
-                <ChatBubbleLeftEllipsisIcon className="h-5 w-5" />
-                {t('home.hero.ctaQuote')}
+                <DocumentTextIcon className="h-5 w-5" />
+                View Test Reports
               </Link>
+            </div>
+
+            <div className="mt-12 grid grid-cols-3 gap-6 max-w-md">
+              {HERO_STATS.map(stat => (
+                <div key={stat.label}>
+                  <div className="text-2xl font-extrabold text-gray-900 dark:text-white">{stat.value}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </motion.div>
 
-          {/* Stats bar */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="mt-16 grid grid-cols-3 gap-6 max-w-xl mx-auto"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="relative"
           >
-            {[
-              { value: '99%+', label: 'Purity' },
-              { value: '2-3wk', label: 'Delivery' },
-              { value: '500+', label: 'Projects' },
-            ].map(stat => (
-              <div key={stat.label} className="text-center">
-                <div className="text-2xl md:text-3xl font-extrabold text-white">{stat.value}</div>
-                <div className="text-xs text-gray-400 mt-1">{stat.label}</div>
+            <div className="relative mx-auto max-w-md rounded-3xl bg-gradient-to-br from-primary to-emerald-700 p-1 shadow-2xl shadow-primary/20">
+              <div className="rounded-[22px] bg-white dark:bg-gray-900 p-6">
+                <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-emerald-50 to-accent-50 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center mb-5">
+                  <BeakerIcon className="h-28 w-28 text-primary/30" />
+                </div>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-sm font-semibold text-gray-900 dark:text-white">Certificate of Analysis</span>
+                  <span className="text-[11px] font-semibold text-primary bg-primary/10 px-2 py-0.5 rounded-full">HPLC / MS</span>
+                </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">Independently verified purity for every batch</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-xl bg-gray-50 dark:bg-gray-800 px-4 py-3">
+                    <div className="text-[10px] uppercase tracking-wider text-gray-400">Purity</div>
+                    <div className="text-lg font-bold text-primary">99%+</div>
+                  </div>
+                  <div className="rounded-xl bg-gray-50 dark:bg-gray-800 px-4 py-3">
+                    <div className="text-[10px] uppercase tracking-wider text-gray-400">Status</div>
+                    <div className="text-lg font-bold text-emerald-600">Verified</div>
+                  </div>
+                </div>
               </div>
-            ))}
+            </div>
           </motion.div>
         </div>
       </section>
@@ -130,6 +170,63 @@ export default function HomePage() {
 
       {/* Category Grid */}
       <CategoryGrid />
+
+      {/* Featured Products */}
+      {featuredProducts.length > 0 && (
+        <section className="py-20 px-4 bg-white dark:bg-gray-950">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-wider text-primary">Best Sellers</span>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mt-2">Featured Peptides</h2>
+                <p className="text-gray-500 dark:text-gray-400 mt-1">Our most popular research peptides</p>
+              </div>
+              <Link to="/catalog" className="hidden sm:flex text-primary font-medium hover:underline items-center gap-1 text-sm">
+                View all <ArrowRightIcon className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {featuredProducts.map(product => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onQuickView={setQuickView}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Research Bundles */}
+      {bundleProducts.length > 0 && (
+        <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-end justify-between mb-10">
+              <div>
+                <span className="text-xs font-semibold uppercase tracking-wider text-accent">Save More</span>
+                <h2 className="flex items-center gap-2 text-3xl font-bold text-gray-900 dark:text-white mt-2">
+                  <Squares2X2Icon className="h-7 w-7 text-accent" />
+                  Research Bundles
+                </h2>
+                <p className="text-gray-500 dark:text-gray-400 mt-1">Curated multi-peptide kits for laboratory efficiency</p>
+              </div>
+              <Link to="/catalog?category=Research%20Bundles" className="hidden sm:flex text-primary font-medium hover:underline items-center gap-1 text-sm">
+                View all <ArrowRightIcon className="h-4 w-4" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {bundleProducts.map(product => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onQuickView={setQuickView}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Services */}
       <section className="py-20 px-4 bg-white dark:bg-gray-950">
@@ -164,108 +261,52 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Featured Products */}
-      {featuredProducts.length > 0 && (
-        <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between mb-10">
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Featured Peptides</h2>
-                <p className="text-gray-500 dark:text-gray-400 mt-1">Our most popular research peptides</p>
-              </div>
-              <Link to="/catalog" className="text-primary font-medium hover:underline flex items-center gap-1 text-sm">
-                View all <ArrowRightIcon className="h-4 w-4" />
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {featuredProducts.map(product => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onQuickView={setQuickView}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      {/* How It Works */}
+      <HowItWorksSection />
 
-      {/* Case Studies */}
-      <section className="py-20 px-4 bg-white dark:bg-gray-950">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">{t('home.caseStudies.title')}</h2>
-            <p className="text-gray-500 dark:text-gray-400">{t('home.caseStudies.subtitle')}</p>
+      {/* COA Band */}
+      <section className="py-20 px-4 bg-gradient-to-r from-primary-800 to-emerald-700">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-[1.5fr_1fr] gap-8 items-center">
+          <div>
+            <span className="inline-flex items-center gap-2 px-3 py-1 bg-white/15 text-white text-xs font-medium rounded-full mb-4">
+              <DocumentTextIcon className="h-4 w-4" />
+              Transparency
+            </span>
+            <h2 className="text-3xl font-bold text-white mb-3">Every Batch Ships With a Certificate of Analysis</h2>
+            <p className="text-white/80 leading-relaxed">
+              We publish the third-party HPLC and mass-spectrometry results for each production batch, so you can verify identity and purity before you buy.
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {CASE_STUDIES.map((cs, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <Card className="h-full">
-                  <div className={`h-2 rounded-full bg-gradient-to-r ${cs.color} mb-5`} />
-                  <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">{cs.category}</span>
-                  <h3 className="font-semibold text-gray-900 dark:text-white mt-1 mb-3">{cs.title}</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-4">{cs.summary}</p>
-                  <span className="inline-block text-xs font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-3 py-1 rounded-full">
-                    ✓ {cs.result}
-                  </span>
-                </Card>
-              </motion.div>
-            ))}
+          <div className="flex md:justify-end">
+            <Link
+              to="/test-reports"
+              className="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-colors"
+            >
+              Browse Test Reports
+              <ArrowRightIcon className="h-5 w-5" />
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <HowItWorksSection />
-
-      {/* Payment Methods */}
+      {/* FAQ */}
       <section className="py-20 px-4 bg-white dark:bg-gray-950">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">{t('home.payment.title')}</h2>
-          <p className="text-gray-500 dark:text-gray-400 mb-10">{t('home.payment.subtitle')}</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {PAYMENT_METHODS.map(pm => (
-              <Link
-                key={pm.symbol}
-                to="/payment-instructions"
-                className="group"
-              >
-                <Card hover className="text-center py-6">
-                  <div className="mb-3 flex items-center justify-center">
-                    <img
-                      src={pm.logo}
-                      alt={pm.name}
-                      className="h-14 w-14 object-contain"
-                      onError={e => {
-                        e.target.style.display = 'none'
-                        e.target.nextSibling.style.display = 'flex'
-                      }}
-                    />
-                    <div
-                      style={{ display: 'none', backgroundColor: pm.color }}
-                      className="h-14 w-14 rounded-full items-center justify-center text-white font-bold text-lg"
-                    >
-                      {pm.symbol}
-                    </div>
-                  </div>
-                  <div className="font-medium text-gray-900 dark:text-white text-sm">{pm.name}</div>
-                  <div className="text-xs text-gray-400">{pm.symbol}</div>
-                </Card>
-              </Link>
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary">Support</span>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mt-2 mb-3">Frequently Asked Questions</h2>
+            <p className="text-gray-500 dark:text-gray-400">Everything you need to know about ordering research peptides</p>
+          </div>
+          <div className="space-y-3">
+            {FAQS.map((faq, i) => (
+              <FaqItem
+                key={faq.q}
+                faq={faq}
+                isOpen={openFaq === i}
+                onToggle={() => setOpenFaq(openFaq === i ? -1 : i)}
+              />
             ))}
           </div>
-          <Link
-            to="/payment-instructions"
-            className="inline-flex items-center gap-2 mt-8 text-primary font-medium hover:underline"
-          >
-            {t('home.payment.viewInstructions')} <ArrowRightIcon className="h-4 w-4" />
-          </Link>
         </div>
       </section>
 
@@ -273,26 +314,26 @@ export default function HomePage() {
       <ResearchHubBanner />
 
       {/* CTA Banner */}
-      <section className="py-20 px-4 bg-gradient-to-r from-primary-800 to-accent-700">
+      <section className="py-20 px-4 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Start Your Project?</h2>
-          <p className="text-primary-100 mb-8">
-            Contact our team today. We respond within 24 hours.
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Ready to Order Research Peptides?</h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-8">
+            Browse the catalog or contact our team. We respond within 24 hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-colors"
-            >
-              <ChatBubbleLeftEllipsisIcon className="h-5 w-5" />
-              Get in Touch
-            </Link>
-            <Link
               to="/catalog"
-              className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/20 transition-colors"
+              className="inline-flex items-center justify-center gap-2 bg-primary text-white px-8 py-4 rounded-xl font-semibold hover:bg-primary-600 transition-colors"
             >
               Browse Catalog
               <ArrowRightIcon className="h-5 w-5" />
+            </Link>
+            <Link
+              to="/contact"
+              className="inline-flex items-center justify-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white px-8 py-4 rounded-xl font-semibold hover:border-primary hover:text-primary transition-colors"
+            >
+              <ChatBubbleLeftEllipsisIcon className="h-5 w-5" />
+              Get in Touch
             </Link>
           </div>
         </div>

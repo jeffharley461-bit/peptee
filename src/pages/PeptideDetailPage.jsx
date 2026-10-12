@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useProduct, useProducts } from '../hooks/useProducts'
+import { useTestReports } from '../hooks/useTestReports'
 import { useSettings } from '../hooks/useSettings'
 import { useCart } from '../store/CartContext'
 import { supabase } from '../lib/supabase'
@@ -10,7 +11,7 @@ import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
 import Spinner from '../components/ui/Spinner'
 import toast from 'react-hot-toast'
-import { ArrowLeftIcon, BeakerIcon, ChevronLeftIcon, ChevronRightIcon, ShoppingCartIcon } from '@heroicons/react/24/outline'
+import { ArrowLeftIcon, ArrowRightIcon, BeakerIcon, ChevronLeftIcon, ChevronRightIcon, ShoppingCartIcon, DocumentTextIcon, ArrowDownTrayIcon, ShieldCheckIcon } from '@heroicons/react/24/outline'
 import { WhatsAppLogo, GmailLogo } from '../components/icons/BrandIcons'
 
 function ImageGallery({ images, name }) {
@@ -263,6 +264,7 @@ export default function PeptideDetailPage() {
   const { id } = useParams()
   const { product, loading } = useProduct(id)
   const { products: related } = useProducts({ category: product?.category_id })
+  const { reports } = useTestReports({ productId: product?.id, publishedOnly: true })
   const { addToCart } = useCart()
   const [inquiryOpen, setInquiryOpen] = useState(false)
 
@@ -340,6 +342,82 @@ export default function PeptideDetailPage() {
             </dl>
           </Card>
         </div>
+      </div>
+
+      {/* Certificate of Analysis */}
+      <Card className="mb-10">
+        <div className="flex items-start gap-3 mb-5">
+          <div className="flex-shrink-0 p-2.5 rounded-xl bg-primary/10 text-primary">
+            <DocumentTextIcon className="h-6 w-6" />
+          </div>
+          <div>
+            <h3 className="font-semibold text-gray-900 dark:text-white">Certificate of Analysis</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Independently verified by HPLC and mass spectrometry for each batch.
+            </p>
+          </div>
+        </div>
+
+        {reports.length > 0 ? (
+          <div className="space-y-3">
+            {reports.map(report => (
+              <div
+                key={report.id}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-gray-50 dark:bg-gray-900 px-4 py-3"
+              >
+                <div className="flex items-center gap-4 text-sm">
+                  <span className="font-medium text-gray-900 dark:text-white">
+                    {report.batch_number || 'Batch report'}
+                  </span>
+                  {report.purity_percent != null && (
+                    <span className="text-gray-500 dark:text-gray-400">
+                      Purity <span className="font-semibold text-primary">{report.purity_percent}%</span>
+                    </span>
+                  )}
+                  {report.method && (
+                    <span className="hidden sm:inline text-gray-400">{report.method}</span>
+                  )}
+                </div>
+                {report.report_url ? (
+                  <a
+                    href={report.report_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-primary-600 transition-colors"
+                  >
+                    <ArrowDownTrayIcon className="h-4 w-4" />
+                    View / Download
+                  </a>
+                ) : (
+                  <Link to="/test-reports" className="text-xs font-semibold text-primary hover:underline">
+                    View test reports
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-gray-50 dark:bg-gray-900 px-4 py-3">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Documentation for this product is available on our Test Reports page.
+            </p>
+            <Link
+              to="/test-reports"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-primary hover:underline"
+            >
+              Browse COAs <ArrowRightIcon className="h-4 w-4" />
+            </Link>
+          </div>
+        )}
+      </Card>
+
+      {/* Research-use notice */}
+      <div className="flex items-start gap-3 rounded-xl border border-amber-200 dark:border-amber-900/40 bg-amber-50 dark:bg-amber-900/10 px-5 py-4 mb-10">
+        <ShieldCheckIcon className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
+        <p className="text-sm text-amber-800 dark:text-amber-300 leading-relaxed">
+          <strong>For laboratory research use only.</strong> This product is not a drug, food, or cosmetic and is not
+          intended for human or veterinary consumption. Store lyophilised material refrigerated, dry and protected from light.
+        </p>
       </div>
 
       {/* Sequence */}

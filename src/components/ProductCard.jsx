@@ -83,7 +83,11 @@ export default function ProductCard({ product, onQuickView }) {
 
         <div className="flex items-center justify-between mb-3 mt-auto">
           <span className="text-xs text-gray-400">
-            {t('catalog.purity')}: <span className="font-medium text-gray-600 dark:text-gray-300">{product.purity_percent ?? '—'}%</span>
+            {t('catalog.purity')}: <span className="font-medium text-gray-600 dark:text-gray-300">
+              {product.purity_percent !== null && product.purity_percent !== undefined
+                ? `${Number(product.purity_percent)}%`
+                : '—'}
+            </span>
           </span>
           <span className="font-bold text-primary text-base">${product.price_usd}</span>
         </div>

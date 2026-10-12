@@ -389,9 +389,9 @@ export default function PeptideDetailPage() {
                     View / Download
                   </a>
                 ) : (
-                  <Link to="/test-reports" className="text-xs font-semibold text-primary hover:underline">
-                    View test reports
-                  </Link>
+                  <span className="inline-flex items-center gap-2 text-xs text-gray-400 px-3 py-1.5 rounded-lg border border-dashed border-gray-300 dark:border-gray-600">
+                    Document Pending
+                  </span>
                 )}
               </div>
             ))}

@@ -112,8 +112,8 @@ export default function TestReportsPage() {
                   {t('testReports.download')}
                 </a>
               ) : (
-                <span className="mt-auto text-center text-xs text-gray-400 py-2.5">
-                  {t('testReports.noDocument')}
+                <span className="mt-auto inline-flex items-center justify-center text-xs text-gray-400 py-2.5 px-3 rounded-lg border border-dashed border-gray-300 dark:border-gray-600">
+                  {t('testReports.noDocument') || 'Document Pending'}
                 </span>
               )}
             </div>

@@ -7,7 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "db:migrate": "node scripts/migrate.mjs",
+    "db:migrate:dry-run": "node scripts/migrate.mjs --dry-run",
+    "db:migrate:force": "node scripts/migrate.mjs --force",
+    "db:migrate:mark-applied": "node scripts/migrate.mjs --mark-applied",
+    "db:migrate:watch": "node scripts/migrate.mjs --watch",
+    "setup:hooks": "node scripts/setup-hooks.mjs"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -18,6 +24,7 @@
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.8",
     "papaparse": "^5.5.4",
+    "pg": "^8.23.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-hot-toast": "^2.6.0",

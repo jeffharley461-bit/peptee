@@ -1,0 +1,22 @@
+#!/bin/sh
+# Auto-apply Supabase migrations after every `git pull` / merge.
+# Runs only when .sql files under supabase/migrations/ changed, so normal
+# pulls stay quiet. A failed migration never blocks the merge (it just warns).
+#
+# Reinstall after a fresh clone with:  node scripts/setup-hooks.mjs
+
+if ! git rev-parse --verify -q ORIG_HEAD >/dev/null 2>&1; then
+  exit 0
+fi
+
+if ! git diff --name-only ORIG_HEAD HEAD -- supabase/migrations/ | grep -q '\.sql$'; then
+  exit 0
+fi
+
+root="$(git rev-parse --show-toplevel)" || exit 1
+echo ""
+echo "[hook] Supabase migration files changed - applying pending migrations..."
+( cd "$root" && npm run db:migrate ) || \
+  echo "[hook] Migration step failed (see output above) - fix and run: npm run db:migrate"
+
+exit 0

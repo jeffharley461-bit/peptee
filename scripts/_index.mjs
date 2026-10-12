@@ -1,0 +1,5 @@
+const r = await fetch('https://peptee.vercel.app/')
+const t = await r.text()
+const m = t.match(/src="\/assets\/index-[^"]+\.js"/)
+console.log(m ? m[1] : 'no')
+process.exit(0)
